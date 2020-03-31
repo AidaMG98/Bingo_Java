@@ -10,5 +10,15 @@ package Bingo;
  * @author aida
  */
 public class JuegoBingo {
-    
+    public static void main(String[] args) {
+        Bombo bombo = new Bombo();
+        bombo.llenarBombo();
+        System.out.println("----------------------------------------");
+        for (int i = 0; i < 91; i++) {
+            bombo.sacarBola();
+        }
+        
+        
+        
+    }
 }
