@@ -11,11 +11,12 @@ package Bingo;
  */
 public class JuegoBingo {
     public static void main(String[] args) {
-        Bombo bombo = new Bombo();
+        Bombo bombo = new Bombo();        
         bombo.llenarBombo();
         System.out.println("----------------------------------------");
-        for (int i = 0; i < 91; i++) {
+        for (int i = 0; i < 90; i++) {
             bombo.sacarBola();
+            bombo.numeroDeBolas();
         }
         
         
