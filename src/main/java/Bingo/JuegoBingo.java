@@ -19,7 +19,8 @@ public class JuegoBingo {
             bombo.numeroDeBolas();
         }
         
-        
+        Carton carton = new Carton();
+        carton.generarCarton();
         
     }
 }
