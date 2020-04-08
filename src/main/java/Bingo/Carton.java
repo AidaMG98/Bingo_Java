@@ -66,22 +66,46 @@ public class Carton extends Bombo {
                     }
                 }
 
-//           Método burbuja
-//                for (int i = 0; i < numeros.length - 1; i++) {
-//                    for (int j = i + 1; j < numeros.length; j++) {
-//                        if (numeros[i] > numeros[j]) {
-//                            tmp = numeros[i];
-//                            numeros[i] = numeros[j];
-//                            numeros[j] = tmp;
-//                        }
-//                    }
-//                }
-                System.out.print("\033[34m" + " | " + matrizNumeros[i][j] + " | ");
+            }
+        }
+
+        // Este bucle controla que no exista en la misma columnas valores repetidos
+        for (int i = 0; i < matrizNumeros.length; i++) {
+
+            for (int j = 0; j < matrizNumeros[i].length; j++) {
+
+                if (this.matrizNumeros[0][j] >= this.matrizNumeros[1][j]) {
+                    this.matrizNumeros[1][j] = 0;
+                } else {
+                    this.matrizNumeros[0][j] = 0;
+                }
+
+                if (this.matrizNumeros[1][j] >= this.matrizNumeros[2][j]) {
+                    this.matrizNumeros[2][j] = 0;
+                } else {
+                    this.matrizNumeros[1][j] = 0;
+                }
+                
+                if (this.matrizNumeros[2][j] >= this.matrizNumeros[0][j]) {
+                    this.matrizNumeros[0][j] = 0;
+                } else {
+                    this.matrizNumeros[2][j] = 0;
+                }
+            }
+        }
+
+        // Este bucle genera el cartón
+        for (int[] matrizNumero : matrizNumeros) {
+            for (int j = 0; j < matrizNumero.length; j++) {
+                // Con String.valueOf() hacemos que se vuelva texto
+                if (matrizNumero[j] == 0) {
+                    System.out.print("\033[34m" + " | " + "X" + " | ");
+                } else {
+                    System.out.print("\033[34m" + " | " + String.valueOf(matrizNumero[j]) + " | ");
+                }
             }
             System.out.println("");
             System.out.println("\033[34m" + "------------------------------------------------------------------------");
         }
-
     }
-
 }

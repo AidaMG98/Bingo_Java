@@ -20,7 +20,11 @@ public class JuegoBingo {
         }
         
         Carton carton = new Carton();
-        carton.generarCarton();
-        
+        for (int i = 0; i < 10; i++) {
+            carton.generarCarton();
+        }
+         carton.generarCarton();
+          carton.generarCarton();
+           carton.generarCarton();
     }
 }
