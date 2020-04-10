@@ -25,6 +25,9 @@ public class Carton extends Bombo {
 
     // Añadimos el método generarCarton en el se va a crear el cartón
     public void generarCarton() {
+        // Atributo random que vamos a usar para generar el cartón
+        Random alt = new Random();
+
         // Linea de decoración
         System.out.println("\033[34m" + "---------------------------------CARTÓN---------------------------------");
         // Hacemos un bucle que tendrá dentro otro bulcle, al trarase de una 
@@ -32,9 +35,8 @@ public class Carton extends Bombo {
         for (int i = 0; i < this.matrizNumeros.length; i++) {
 
             for (int j = 0; j < this.matrizNumeros[i].length; j++) {
-                // En el interior del segundo bucle hemos creado un atriburo random
+                // En el interior del segundo bucle hemos vamos a usar el atriburo random
                 // para añadir los numeros que tendrá cada hueco de la matriz
-                Random alt = new Random();
                 // Este bucle While lo que hace es que no deje ningun hueco a 0 
                 // para que se generén numeros en todo.
                 while (this.matrizNumeros[i][j] == 0) {
@@ -65,39 +67,64 @@ public class Carton extends Bombo {
                         this.matrizNumeros[i][8] = numero;
                     }
                 }
-
             }
         }
 
-        // Este bucle controla que no exista en la misma columnas valores repetidos
-        for (int i = 0; i < matrizNumeros.length; i++) {
-
-            for (int j = 0; j < matrizNumeros[i].length; j++) {
-
-                if (this.matrizNumeros[0][j] >= this.matrizNumeros[1][j]) {
-                    this.matrizNumeros[1][j] = 0;
-                } else {
-                    this.matrizNumeros[0][j] = 0;
-                }
-
-                if (this.matrizNumeros[1][j] >= this.matrizNumeros[2][j]) {
-                    this.matrizNumeros[2][j] = 0;
-                } else {
-                    this.matrizNumeros[1][j] = 0;
-                }
-                
-                if (this.matrizNumeros[2][j] >= this.matrizNumeros[0][j]) {
-                    this.matrizNumeros[0][j] = 0;
-                } else {
-                    this.matrizNumeros[2][j] = 0;
-                }
-            }
-        }
-
+////         Este bucle controla que no exista en la misma columnas valores que 
+////         esten repetidos o que sean menores al numero que tenga encima o debajo
+//        for (int i = 0; i < matrizNumeros.length; i++) {
+//
+//            for (int j = 0; j < matrizNumeros[i].length; j++) {
+//
+//                if (this.matrizNumeros[0][j] >= this.matrizNumeros[1][j]) {
+//                    this.matrizNumeros[1][j] = 0;
+//                } else {
+//                    this.matrizNumeros[0][j] = 0;
+//                }
+//
+//                if (this.matrizNumeros[1][j] >= this.matrizNumeros[2][j]) {
+//                    this.matrizNumeros[2][j] = 0;
+//                } else {
+//                    this.matrizNumeros[1][j] = 0;
+//                }
+//
+//                if (this.matrizNumeros[2][j] >= this.matrizNumeros[0][j]) {
+//                    this.matrizNumeros[0][j] = 0;
+//                } else {
+//                    this.matrizNumeros[2][j] = 0;
+//                }
+//            }
+//        }
+//
+//        // Este bucle lo que va a controlar es que no tengamos más de 5 número
+//        // por filas. creamos dos bucles ya que se trata de una matriz.
+////        for (int i = 0; i < this.matrizNumeros.length; i++) {
+////            for (int j = 0; j < 4; j++) {
+////                // Añadimos un atributo de tipo entero que genera un valor entre
+////                // 0 y 8 
+////                int tmp = alt.nextInt(9);
+////                // En este bucle comprobaremos que ninguno de los valores sea 0
+////                // Si es 0 volverá a generar otro número
+////                
+////                // NO FUNCIONA
+//////                if  (this.matrizNumeros[0][j] == 0 && this.matrizNumeros[1][j] == 0 && this.matrizNumeros[2][j] == 0){
+//////                        this.matrizNumeros[i][j] = 99;
+//////                    } 
+////                
+////                while (this.matrizNumeros[i][tmp] == 0) {                    
+////                    tmp = alt.nextInt(9);
+////                }
+////                // Una vez lo comprobamos que el valor no sea 0 el valor que salga 
+////                // de manera Random volvera esa posición a 0 para no confundirla.
+////                this.matrizNumeros[i][tmp] = 0;
+////            }
+////        }
         // Este bucle genera el cartón
         for (int[] matrizNumero : matrizNumeros) {
             for (int j = 0; j < matrizNumero.length; j++) {
-                // Con String.valueOf() hacemos que se vuelva texto
+                // Creamos una condicion para que cuando la matriz tenga como 
+                // valor 0 se ponga texto en blanco con el método 
+                // String.valueOf() 
                 if (matrizNumero[j] == 0) {
                     System.out.print("\033[34m" + " | " + "X" + " | ");
                 } else {
@@ -108,4 +135,34 @@ public class Carton extends Bombo {
             System.out.println("\033[34m" + "------------------------------------------------------------------------");
         }
     }
+
+    public void mostrarCarton() {
+        System.out.println("\033[34m" + "---------------------------------CARTÓN---------------------------------");
+        for (int[] matrizNumero : matrizNumeros) {
+            for (int j = 0; j < matrizNumero.length; j++) {
+
+                if (matrizNumero[j] == 0) {
+                    System.out.print("\033[34m" + " | " + "X" + " | ");
+                } else {
+                    System.out.print("\033[34m" + " | " + String.valueOf(matrizNumero[j]) + " | ");
+                }
+            }
+            System.out.println("");
+            System.out.println("\033[34m" + "------------------------------------------------------------------------");
+        }
+
+    }
+
+    public void tacharCasilla(int numero) {
+        System.out.println("EL NÚMERO QUE HA SALIDO ES EL: " + numero);
+        for (int[] matrizNumero : this.matrizNumeros) {
+            for (int j = 0; j < matrizNumero.length; j++) {
+                if (matrizNumero[j] == numero) {
+                    matrizNumero[j] = 0;
+                }
+            }
+        }
+
+    }
+
 }

@@ -5,26 +5,31 @@
  */
 package Bingo;
 
+
 /**
  *
  * @author aida
  */
 public class JuegoBingo {
+
     public static void main(String[] args) {
-        Bombo bombo = new Bombo();        
+        Bombo bombo = new Bombo();
         bombo.llenarBombo();
         System.out.println("----------------------------------------");
         for (int i = 0; i < 90; i++) {
             bombo.sacarBola();
             bombo.numeroDeBolas();
         }
-        
-        Carton carton = new Carton();
-        for (int i = 0; i < 10; i++) {
-            carton.generarCarton();
-        }
-         carton.generarCarton();
-          carton.generarCarton();
-           carton.generarCarton();
+
+//        Carton carton = new Carton();
+//        for (int i = 0; i < 10; i++) {
+//            carton.generarCarton();
+//        }
+//        carton.generarCarton();
+//        carton.generarCarton();
+//        carton.generarCarton();
+
+
+
     }
 }
