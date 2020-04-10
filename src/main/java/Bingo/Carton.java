@@ -141,10 +141,16 @@ public class Carton extends Bombo {
         for (int[] matrizNumero : matrizNumeros) {
             for (int j = 0; j < matrizNumero.length; j++) {
 
-                if (matrizNumero[j] == 0) {
-                    System.out.print("\033[34m" + " | " + "X" + " | ");
-                } else {
-                    System.out.print("\033[34m" + " | " + String.valueOf(matrizNumero[j]) + " | ");
+                switch (matrizNumero[j]) {
+                    case 0:
+                        System.out.print("\033[34m" + " | " + " " + " | ");
+                        break;
+                    case 99:
+                        System.out.print("\033[34m" + " | " + "\033[31m" + "X" + "\033[34m" +" | ");
+                        break;
+                    default:
+                        System.out.print("\033[34m" + " | " + String.valueOf(matrizNumero[j]) + " | ");
+                        break;
                 }
             }
             System.out.println("");
@@ -158,11 +164,51 @@ public class Carton extends Bombo {
         for (int[] matrizNumero : this.matrizNumeros) {
             for (int j = 0; j < matrizNumero.length; j++) {
                 if (matrizNumero[j] == numero) {
-                    matrizNumero[j] = 0;
+                    matrizNumero[j] = 99;
                 }
             }
         }
 
+    }
+
+    // SIN COMRPOBAR HASTA TERMINAR EL GENERAR BINGO
+    public boolean comprobarLinea() {
+        for (int i = 0; i < this.matrizNumeros.length; i++) {
+            for (int j = 0; j < this.matrizNumeros[i][j]; j++) {
+                int contador = 0;
+                if (this.matrizNumeros[0][j] == 99) {
+                    contador++;
+                }
+                if (this.matrizNumeros[1][j] == 99) {
+                    contador++;
+                }
+                if (this.matrizNumeros[2][j] == 99) {
+                    contador++;
+                }
+                if (contador == 9) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    // SIN COMRPOBAR HASTA TERMINAR EL GENERAR BINGO
+    public boolean comprobarBingo() {
+        for (int i = 0; i < this.matrizNumeros.length; i++) {
+            for (int j = 0; j < this.matrizNumeros[i][j]; j++) {
+                int contador = 0;
+                if (this.matrizNumeros[i][j] == 99) {
+                    contador++;
+                }
+                if (contador == 15) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
     }
 
 }

@@ -15,9 +15,12 @@ public class JuegoBingo {
     public static void main(String[] args) {
         Bombo bombo = new Bombo();
         bombo.llenarBombo();
+        Carton carton = new Carton();
+        carton.generarCarton();
         System.out.println("----------------------------------------");
-        for (int i = 0; i < 90; i++) {
-            bombo.sacarBola();
+        for (int i = 0; i < 90; i++) {           
+            carton.mostrarCarton();
+            carton.tacharCasilla(bombo.sacarBola());
             bombo.numeroDeBolas();
         }
 
