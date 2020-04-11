@@ -22,17 +22,37 @@ public class Carton extends Bombo {
         this.matrizNumeros = new int[3][9];
         this.matrizMarca = new String[3][9];
     }
-        private void eliminarNumero() {
+    
+    //  Para eliminar los numeros del cartón hemos creado un método para que sea 
+    // mas sencillo de ver.
+    private void eliminarNumero() {
+        //  Lo primero hemos creado son tres atributos para contar el numero de
+        // espacios que tiene cada fila. 
         int fila0 = 0;
         int fila1 = 0;
         int fila2 = 0;
-        int valor;
-
+        //  También hemos creado un valor que sera el que nos servira para crear 
+        // un valor rando.
+        int valor; 
         Random alt = new Random();
+        
+        //  Como ya sabemos la fila no puede tener mas que 4 espacios en blanco y 
+        // una columna tiene que tener como mínimo una posición ocupado y como 
+        // máximo 2.
+        
+        //  Para hacer este método hemos tenido esos dos factores como prioridad 
+        // por ello hemos creado dos bucles para recorrer y como primera condicion
+        // hemos indicado que en las columnas no pueden ser su posición 0 
+        // (refiriendonos al espacio en blanco)
         for (int[] matrizNumero : this.matrizNumeros) {
             for (int j = 0; j < matrizNumero.length; j++) {
                 while (this.matrizNumeros[0][j] != 0 && this.matrizNumeros[1][j] != 0 && this.matrizNumeros[2][j] != 0) {
+                    //  Dentro del bucle lo que hemos hecho es que el atributo 
+                    // "valor" saque un valor aleatorio.
                     valor = alt.nextInt(3);
+                    //  Ese valor se meterá en un switch y si el contador es menor 
+                    // a 3 entrará y esa posición se pondrá a "0" (se quedará 
+                    // como un espacio en blanco)
                     switch (valor) {
                         case 0:
                             if (fila0 < 3) {
@@ -56,13 +76,20 @@ public class Carton extends Bombo {
                 }
             }
         }
-
+        //  Una vez termine este bucle se iniciará otros 2 en el que se ejecutará 
+        // un bulce en el que cuando los valores de las tres filas sean 3
         for (int[] matrizNumero : this.matrizNumeros) {
             for (int j = 0; j < matrizNumero.length; j++) {
                 do {       
                     valor = alt.nextInt(3);
+                    //  Volveremos a generá un valor aleatorio en el que se meterá
+                    // en otro switch.
                     switch (valor) {
-                        case 0:
+                        //  Dentro de cada opción vamos a tener que cumplir una
+                        // condición. Si la fila es menor a 4 y la posición en
+                        // la que estamos actualmente es distinta de 0 entraremos
+                        // la posición se pondrá a 0 y se le sumará uno más a la fila
+                        case 0:   
                             if (fila0 < 4 && this.matrizNumeros[0][j] != 0) {
                                 this.matrizNumeros[0][j] = 0;
                                 fila0++;
@@ -236,7 +263,9 @@ public class Carton extends Bombo {
 
     }
 
-    // SIN COMRPOBAR HASTA TERMINAR EL GENERAR BINGO
+    //  Este metodo hace dos bucles para ir mirando fila por fila si alguno de
+    // los numeros ha sido tachado, si así es se le añade un valor a su contador
+    // y cuando llegue a 5 mostrará un mensaje indicando en que fila es la linea 
     public void comprobarLinea() {
  
         for (int i = 0; i < this.matrizNumeros.length; i++) {
@@ -272,8 +301,9 @@ public class Carton extends Bombo {
             }
         }
     }
-
-    // SIN COMRPOBAR HASTA TERMINAR EL GENERAR BINGO
+    
+    //  En este método comprobaremos que todos los números del cartón que han sido
+    // tachados, si es así nos mostrará un mensaje diciendo que tiene bingo.
     public void comprobarBingo() {
         int contador = 0;
         for (int i = 0; i < this.matrizNumeros.length; i++) {
