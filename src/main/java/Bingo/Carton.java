@@ -27,87 +27,95 @@ public class Carton extends Bombo {
     public void generarCarton() {
         Random alt = new Random();
 
-        for (int i = 0; i < this.matrizNumeros.length; i++) {
-
-            for (int j = 0; j < this.matrizNumeros[i].length; j++) {
+        //  Vamos a generar dos bucles, uno dentro del otro ya que se trata de una matriz,
+        // las matrices son dos arrays que contiene otro array en cada uno de sus 
+        // elementos. Por ello necesitamos dos bucles para poder ir metiendo valores.
+        for (int[] matrizNumero : this.matrizNumeros) {
+            for (int j = 0; j < matrizNumero.length; j++) {
+                // Hemos creado un atributo para que genere numero aleatorio.
                 int numero;
-
+                //  Hemos creado un switch para que cuando "j" tome un valor en la posición 
+                // que le toque en ese momento se genera un número aletorio en el rango indicado
+                // asi la primera columna será tomará valores menores a 10, la segunda valores
+                // mayores a 9 menores a 20... Hasta que llegue a la ultima columna que tendrá 
+                // valores mayores a 79 y menores hasta el 90 incluido.
                 switch (j) {
+                //  En cada opcion dentro hay un bucle para que vaya comparando las filas, si 
+                // la fila 0, o cualquier otra fila, tiene el mismo valor genera otro numero.
+                // Dentro también le indicamos que la posición "x" va a tener el número aleatorio
+                // que hemos generado en el bucle y tambien tiene un break para que se salga.
                     case 0:
                         do {
-                            numero = alt.nextInt(9) + 1;
+                            numero = alt.nextInt(9) + 1; // Genera números entre 1 hasta 9
                         } while (numero == this.matrizNumeros[0][j] || numero == this.matrizNumeros[1][j] || numero == this.matrizNumeros[2][j]);
-                        this.matrizNumeros[i][j] = numero;
+                        matrizNumero[j] = numero;
                         break;
                     case 1:
                         do {
-                            numero = alt.nextInt(9) + 11; // Genera nuermos desde el 10 al 19
+                            numero = alt.nextInt(9) + 11; // Genera núermos desde el 10 al 19
                         } while (numero == this.matrizNumeros[0][j] || numero == this.matrizNumeros[1][j] || numero == this.matrizNumeros[2][j]);
-                        this.matrizNumeros[i][j] = numero;
+                        matrizNumero[j] = numero;
                         break;
                     case 2:
                         do {
                             numero = alt.nextInt(9) + 21;
                         } while (numero == this.matrizNumeros[0][j] || numero == this.matrizNumeros[1][j] || numero == this.matrizNumeros[2][j]);
-                        this.matrizNumeros[i][j] = numero;
+                        matrizNumero[j] = numero;
                         break;
                     case 3:
                         do {
                             numero = alt.nextInt(9) + 31;
                         } while (numero == this.matrizNumeros[0][j] || numero == this.matrizNumeros[1][j] || numero == this.matrizNumeros[2][j]);
-                        this.matrizNumeros[i][j] = numero;
+                        matrizNumero[j] = numero;
                         break;
                     case 4:
                         do {
                             numero = alt.nextInt(9) + 41;
                         } while (numero == this.matrizNumeros[0][j] || numero == this.matrizNumeros[1][j] || numero == this.matrizNumeros[2][j]);
-
-                        this.matrizNumeros[i][j] = numero;
+                        matrizNumero[j] = numero;
                         break;
                     case 5:
                         do {
                             numero = alt.nextInt(9) + 51;
                         } while (numero == this.matrizNumeros[0][j] || numero == this.matrizNumeros[1][j] || numero == this.matrizNumeros[2][j]);
-                        this.matrizNumeros[i][j] = numero;
+                        matrizNumero[j] = numero;
                         break;
                     case 6:
                         do {
                             numero = alt.nextInt(9) + 61;
                         } while (numero == this.matrizNumeros[0][j] || numero == this.matrizNumeros[1][j] || numero == this.matrizNumeros[2][j]);
-                        this.matrizNumeros[i][j] = numero;
+                        matrizNumero[j] = numero;
                         break;
                     case 7:
                         do {
                             numero = alt.nextInt(9) + 71;
                         } while (numero == this.matrizNumeros[0][j] || numero == this.matrizNumeros[1][j] || numero == this.matrizNumeros[2][j]);
-                        this.matrizNumeros[i][j] = numero;
+                        matrizNumero[j] = numero;
                         break;
                     case 8:
                         do {
                             numero = alt.nextInt(9) + 82;
                         } while (numero == this.matrizNumeros[0][j] || numero == this.matrizNumeros[1][j] || numero == this.matrizNumeros[2][j]);
-                        this.matrizNumeros[i][j] = numero;
+                        matrizNumero[j] = numero;
                         break;
                 }
             }
         }
-
-        // METODO BURBUJA PARA UNA MATRIZ
+        
+        //  Despúes vamos a hacer otros dos bucles para que vaya comparando los números 
+        // y los vaya ordnenado entre las filas. (Para ello e usado el método burbuja 
+        // explicado en clase.)
         for (int i = 0; i< this.matrizNumeros.length - 1; i++) {
             for (int j = 0; j < this.matrizNumeros[i].length; j++) {
-
                 int valor;
-
+                //  Esta condición compara la fila "x" con la fila "x+1" si es mayor 
+                // la fila "x" entra dentro y en el atributo creado antes guarda el
+                // valor de la fila "x+1", despúes la fila "x+1" se queda con el valor 
+                // de la fila "x" y por ultimo se le asigna el valor del atributo a la fila"x".
                 if (this.matrizNumeros[i + 1][j] < this.matrizNumeros[i][j]) {
                     valor = this.matrizNumeros[i + 1][j];
                     this.matrizNumeros[i + 1][j] = this.matrizNumeros[i][j];
                     this.matrizNumeros[i][j] = valor;
-                }
-
-                if (this.matrizNumeros[2][j] < this.matrizNumeros[0][j]) {
-                    valor = this.matrizNumeros[2][j];
-                    this.matrizNumeros[2][j] = this.matrizNumeros[0][j];
-                    this.matrizNumeros[0][j] = valor;
                 }
 
             }
@@ -116,11 +124,17 @@ public class Carton extends Bombo {
 
     }
 
+    //  Este método lo hemos creado para poder ver el cartón con un ESTILO ÚNICO 
     public void mostrarCarton() {
+        //  Dentro tenemos dos for para que vaya creado la estructura
         System.out.println("\033[34m" + "---------------------------------CARTÓN---------------------------------");
         for (int[] matrizNumero : matrizNumeros) {
             for (int j = 0; j < matrizNumero.length; j++) {
-
+                //  Dentro de los dos for tenemos un switch para que si sale 0 
+                // (que es el valor con el que asociamos los espacios) no se 
+                // muestre nada, si sale 99 (que es el valor que hemos asocuado 
+                // cuando el numero es tachado) salga una "X" en color rojo y si
+                // no sale ninguna de esos 2 casos que muestre el número como un String
                 switch (matrizNumero[j]) {
                     case 0:
                         System.out.print("\033[34m" + " | " + " " + " | ");
@@ -139,10 +153,16 @@ public class Carton extends Bombo {
 
     }
 
-    public void tacharCasilla(int numero) {
+    //  Luego tenemos el método tachar casilla al que se le pasa un número
+    public void tacharCasilla(int numero) { 
+        //  Lo primero mostrará un mensaje con el número que ha salido
         System.out.println("EL NÚMERO QUE HA SALIDO ES EL: " + numero);
+        //  Después crearemos dos for para que vaya comprobando si ese número 
+        // esta en nuestro cartón
         for (int[] matrizNumero : this.matrizNumeros) {
             for (int j = 0; j < matrizNumero.length; j++) {
+                //  Si está en nuestro cartón se pondrá a 99 pero nosotros lo 
+                // veremos como una "X"
                 if (matrizNumero[j] == numero) {
                     matrizNumero[j] = 99;
                 }
