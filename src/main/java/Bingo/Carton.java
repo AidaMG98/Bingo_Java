@@ -22,6 +22,71 @@ public class Carton extends Bombo {
         this.matrizNumeros = new int[3][9];
         this.matrizMarca = new String[3][9];
     }
+        private void eliminarNumero() {
+        int fila0 = 0;
+        int fila1 = 0;
+        int fila2 = 0;
+        int valor;
+
+        Random alt = new Random();
+        for (int[] matrizNumero : this.matrizNumeros) {
+            for (int j = 0; j < matrizNumero.length; j++) {
+                while (this.matrizNumeros[0][j] != 0 && this.matrizNumeros[1][j] != 0 && this.matrizNumeros[2][j] != 0) {
+                    valor = alt.nextInt(3);
+                    switch (valor) {
+                        case 0:
+                            if (fila0 < 3) {
+                                this.matrizNumeros[0][j] = 0;
+                                fila0++;
+                            }
+                            break;
+                        case 1:
+                            if (fila1 < 3) {
+                                this.matrizNumeros[1][j] = 0;
+                                fila1++;
+                            }
+                            break;
+                        case 2:
+                            if (fila2 < 3) {
+                                this.matrizNumeros[2][j] = 0;
+                                fila2++;
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
+        for (int[] matrizNumero : this.matrizNumeros) {
+            for (int j = 0; j < matrizNumero.length; j++) {
+                do {       
+                    valor = alt.nextInt(3);
+                    switch (valor) {
+                        case 0:
+                            if (fila0 < 4 && this.matrizNumeros[0][j] != 0) {
+                                this.matrizNumeros[0][j] = 0;
+                                fila0++;
+                            }
+                            break;
+                        case 1:
+                            if (fila1 < 4 && this.matrizNumeros[1][j] != 0) {
+                                this.matrizNumeros[1][j] = 0;
+                                fila1++;
+                            }
+                            break;
+                        case 2:
+                            if (fila2 < 4 && this.matrizNumeros[2][j] != 0) {
+                                this.matrizNumeros[2][j] = 0;
+                                fila2++;
+                            }
+                            break;
+                    }
+
+                } while (fila0 == 3 && fila1== 3 && fila2== 3);
+            }
+        }
+    }
+
 
     // Añadimos el método generarCarton en el se va a crear el cartón
     public void generarCarton() {
@@ -120,14 +185,14 @@ public class Carton extends Bombo {
 
             }
         }
-//        this.eliminarNumero();
+        this.eliminarNumero();
 
     }
 
     //  Este método lo hemos creado para poder ver el cartón con un ESTILO ÚNICO 
     public void mostrarCarton() {
         //  Dentro tenemos dos for para que vaya creado la estructura
-        System.out.println("\033[34m" + "---------------------------------CARTÓN---------------------------------");
+        System.out.println("\033[34m" + "-------------------------------CARTÓN-------------------------------");
         for (int[] matrizNumero : matrizNumeros) {
             for (int j = 0; j < matrizNumero.length; j++) {
                 //  Dentro de los dos for tenemos un switch para que si sale 0 
@@ -148,7 +213,7 @@ public class Carton extends Bombo {
                 }
             }
             System.out.println("");
-            System.out.println("\033[34m" + "------------------------------------------------------------------------");
+            System.out.println("\033[34m" + "--------------------------------------------------------------------");
         }
 
     }
@@ -172,43 +237,56 @@ public class Carton extends Bombo {
     }
 
     // SIN COMRPOBAR HASTA TERMINAR EL GENERAR BINGO
-    public boolean comprobarLinea() {
+    public void comprobarLinea() {
+ 
         for (int i = 0; i < this.matrizNumeros.length; i++) {
-            for (int j = 0; j < this.matrizNumeros[i][j]; j++) {
-                int contador = 0;
+            int contarFila1 = 0;
+            int contarFila2 = 0;
+            int contarFila3 = 0;
+        
+            for (int j = 0; j < this.matrizNumeros[i].length; j++) {
+                
                 if (this.matrizNumeros[0][j] == 99) {
-                    contador++;
+                    contarFila1++;
+                    if (contarFila1 == 5) {
+                        System.out.println("LINEA EN LA FILA 1");
+                        return;
+                    }
                 }
                 if (this.matrizNumeros[1][j] == 99) {
-                    contador++;
+                    contarFila2++;
+                    if (contarFila2 == 5) {
+                        System.out.println("LINEA EN LA FILA 2");
+                        return;
+                    }
                 }
                 if (this.matrizNumeros[2][j] == 99) {
-                    contador++;
+                    contarFila3++;
+                    if (contarFila3 == 5) {
+                        System.out.println("LINEA EN LA FILA 3");
+                        return;
+                    }
                 }
-                if (contador == 9) {
-                    return true;
-                }
+                
 
             }
         }
-        return false;
     }
 
     // SIN COMRPOBAR HASTA TERMINAR EL GENERAR BINGO
-    public boolean comprobarBingo() {
+    public void comprobarBingo() {
+        int contador = 0;
         for (int i = 0; i < this.matrizNumeros.length; i++) {
-            for (int j = 0; j < this.matrizNumeros[i][j]; j++) {
-                int contador = 0;
+            for (int j = 0; j < this.matrizNumeros[i].length; j++) {
+                
                 if (this.matrizNumeros[i][j] == 99) {
                     contador++;
                 }
                 if (contador == 15) {
-                    return true;
+                    System.out.println("BINGO....!!!");
                 }
-
             }
         }
-        return false;
     }
 
 }
