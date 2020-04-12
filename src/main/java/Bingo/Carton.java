@@ -15,12 +15,10 @@ public class Carton extends Bombo {
 
     // Creamos los atributos de la clase
     int[][] matrizNumeros;
-    String[][] matrizMarca;
 
     // Añadimos el construcor
     public Carton() {
         this.matrizNumeros = new int[3][9];
-        this.matrizMarca = new String[3][9];
     }
     
     //  Para eliminar los numeros del cartón hemos creado un método para que sea 
@@ -277,34 +275,18 @@ public class Carton extends Bombo {
                 
                 if (this.matrizNumeros[0][j] == 99) {
                     contarFila1++;
-                    if (contarFila1 == 5) {
-                        System.out.println("LINEA EN LA FILA 1");
+                    if (contarFila1 == 5 || this.matrizNumeros[1][j] == 99 || this.matrizNumeros[2][j] == 99) {
+                        System.out.println("LINEA....!!!");
                         return;
                     }
-                }
-                if (this.matrizNumeros[1][j] == 99) {
-                    contarFila2++;
-                    if (contarFila2 == 5) {
-                        System.out.println("LINEA EN LA FILA 2");
-                        return;
-                    }
-                }
-                if (this.matrizNumeros[2][j] == 99) {
-                    contarFila3++;
-                    if (contarFila3 == 5) {
-                        System.out.println("LINEA EN LA FILA 3");
-                        return;
-                    }
-                }
-                
-
+                } 
             }
         }
     }
     
     //  En este método comprobaremos que todos los números del cartón que han sido
     // tachados, si es así nos mostrará un mensaje diciendo que tiene bingo.
-    public void comprobarBingo() {
+    public boolean comprobarBingo() {
         int contador = 0;
         for (int i = 0; i < this.matrizNumeros.length; i++) {
             for (int j = 0; j < this.matrizNumeros[i].length; j++) {
@@ -314,9 +296,11 @@ public class Carton extends Bombo {
                 }
                 if (contador == 15) {
                     System.out.println("BINGO....!!!");
+                    return true;
                 }
             }
         }
+        return false;
     }
 
 }
