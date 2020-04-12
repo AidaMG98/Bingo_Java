@@ -11,7 +11,7 @@ import java.util.Random;
  *
  * @author aida
  */
-public class Carton extends Bombo {
+public class Carton {
 
     // Creamos los atributos de la clase
     int[][] matrizNumeros;
