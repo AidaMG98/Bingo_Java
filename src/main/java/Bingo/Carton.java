@@ -85,22 +85,23 @@ public class Carton extends Bombo {
                     switch (valor) {
                         //  Dentro de cada opción vamos a tener que cumplir una
                         // condición. Si la fila es menor a 4 y la posición en
-                        // la que estamos actualmente es distinta de 0 entraremos
-                        // la posición se pondrá a 0 y se le sumará uno más a la fila
+                        // la que estamos actualmente es distinta de 0 y si alguna 
+                        // de las fila es dinstinta a 0 entraremos la posición se 
+                        // pondrá a 0 y se le sumará uno más a la fila
                         case 0:   
-                            if (fila0 < 4 && this.matrizNumeros[0][j] != 0) {
+                            if (fila0 < 4 && this.matrizNumeros[0][j] != 0 && (this.matrizNumeros[1][j] != 0 || this.matrizNumeros[2][j] != 0)) {
                                 this.matrizNumeros[0][j] = 0;
                                 fila0++;
                             }
                             break;
                         case 1:
-                            if (fila1 < 4 && this.matrizNumeros[1][j] != 0) {
+                            if (fila1 < 4 && this.matrizNumeros[1][j] != 0 && (this.matrizNumeros[0][j] != 0 || this.matrizNumeros[2][j] != 0)) {
                                 this.matrizNumeros[1][j] = 0;
                                 fila1++;
                             }
                             break;
                         case 2:
-                            if (fila2 < 4 && this.matrizNumeros[2][j] != 0) {
+                            if (fila2 < 4 && this.matrizNumeros[2][j] != 0 && (this.matrizNumeros[1][j] != 0 || this.matrizNumeros[0][j] != 0)) {
                                 this.matrizNumeros[2][j] = 0;
                                 fila2++;
                             }
