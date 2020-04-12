@@ -98,6 +98,7 @@ public class JuegoBingo {
                                             teclado.next();
                                         } 
                                     }
+                                    break;
                     //  La segunda opción es que no quieras jugar más y se cierra la partida
                     case 2:
                         salir = true;
