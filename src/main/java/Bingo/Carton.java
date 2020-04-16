@@ -20,7 +20,7 @@ public class Carton {
     public Carton() {
         this.matrizNumeros = new int[3][9];
     }
-    
+
     //  Para eliminar los numeros del cartón hemos creado un método para que sea 
     // mas sencillo de ver.
     private void eliminarNumero() {
@@ -31,13 +31,12 @@ public class Carton {
         int fila2 = 0;
         //  También hemos creado un valor que sera el que nos servira para crear 
         // un valor rando.
-        int valor; 
+        int valor;
         Random alt = new Random();
-        
+
         //  Como ya sabemos la fila no puede tener mas que 4 espacios en blanco y 
         // una columna tiene que tener como mínimo una posición ocupado y como 
         // máximo 2.
-        
         //  Para hacer este método hemos tenido esos dos factores como prioridad 
         // por ello hemos creado dos bucles para recorrer y como primera condicion
         // hemos indicado que en las columnas no pueden ser su posición 0 
@@ -78,7 +77,7 @@ public class Carton {
         // un bulce en el que cuando los valores de las tres filas sean 3
         for (int[] matrizNumero : this.matrizNumeros) {
             for (int j = 0; j < matrizNumero.length; j++) {
-                do {       
+                do {
                     valor = alt.nextInt(3);
                     //  Volveremos a generá un valor aleatorio en el que se meterá
                     // en otro switch.
@@ -88,7 +87,7 @@ public class Carton {
                         // la que estamos actualmente es distinta de 0 y si alguna 
                         // de las fila es dinstinta a 0 entraremos la posición se 
                         // pondrá a 0 y se le sumará uno más a la fila
-                        case 0:   
+                        case 0:
                             if (fila0 < 4 && this.matrizNumeros[0][j] != 0 && (this.matrizNumeros[1][j] != 0 || this.matrizNumeros[2][j] != 0)) {
                                 this.matrizNumeros[0][j] = 0;
                                 fila0++;
@@ -108,11 +107,10 @@ public class Carton {
                             break;
                     }
 
-                } while (fila0 == 3 && fila1== 3 && fila2== 3);
+                } while (fila0 == 3 && fila1 == 3 && fila2 == 3);
             }
         }
     }
-
 
     // Añadimos el método generarCarton en el se va a crear el cartón
     public void generarCarton() {
@@ -131,10 +129,10 @@ public class Carton {
                 // mayores a 9 menores a 20... Hasta que llegue a la ultima columna que tendrá 
                 // valores mayores a 79 y menores hasta el 90 incluido.
                 switch (j) {
-                //  En cada opcion dentro hay un bucle para que vaya comparando las filas, si 
-                // la fila 0, o cualquier otra fila, tiene el mismo valor genera otro numero.
-                // Dentro también le indicamos que la posición "x" va a tener el número aleatorio
-                // que hemos generado en el bucle y tambien tiene un break para que se salga.
+                    //  En cada opcion dentro hay un bucle para que vaya comparando las filas, si 
+                    // la fila 0, o cualquier otra fila, tiene el mismo valor genera otro numero.
+                    // Dentro también le indicamos que la posición "x" va a tener el número aleatorio
+                    // que hemos generado en el bucle y tambien tiene un break para que se salga.
                     case 0:
                         do {
                             numero = alt.nextInt(9) + 1; // Genera números entre 1 hasta 9
@@ -192,11 +190,11 @@ public class Carton {
                 }
             }
         }
-        
+
         //  Despúes vamos a hacer otros dos bucles para que vaya comparando los números 
         // y los vaya ordnenado entre las filas. (Para ello e usado el método burbuja 
         // explicado en clase.)
-        for (int i = 0; i< this.matrizNumeros.length - 1; i++) {
+        for (int i = 0; i < this.matrizNumeros.length - 1; i++) {
             for (int j = 0; j < this.matrizNumeros[i].length; j++) {
                 int valor;
                 //  Esta condición compara la fila "x" con la fila "x+1" si es mayor 
@@ -208,7 +206,13 @@ public class Carton {
                     this.matrizNumeros[i + 1][j] = this.matrizNumeros[i][j];
                     this.matrizNumeros[i][j] = valor;
                 }
-
+                // Esta condición es igual que la de arriba pero es solo para comparar las primera
+                // columna y la ultima colimna para que no tenga un valor menor
+                if (this.matrizNumeros[2][j] < this.matrizNumeros[0][j]) {
+                    valor = this.matrizNumeros[2][j];
+                    this.matrizNumeros[2][j] = this.matrizNumeros[0][j];
+                    this.matrizNumeros[0][j] = valor;
+                }
             }
         }
         this.eliminarNumero();
@@ -231,7 +235,7 @@ public class Carton {
                         System.out.print("\033[34m" + " | " + " " + " | ");
                         break;
                     case 99:
-                        System.out.print("\033[34m" + " | " + "\033[31m" + "X" + "\033[34m" +" | ");
+                        System.out.print("\033[34m" + " | " + "\033[31m" + "X" + "\033[34m" + " | ");
                         break;
                     default:
                         System.out.print("\033[34m" + " | " + String.valueOf(matrizNumero[j]) + " | ");
@@ -245,7 +249,7 @@ public class Carton {
     }
 
     //  Luego tenemos el método tachar casilla al que se le pasa un número
-    public void tacharCasilla(int numero) { 
+    public void tacharCasilla(int numero) {
         //  Lo primero mostrará un mensaje con el número que ha salido
         System.out.println("EL NÚMERO QUE HA SALIDO ES EL: " + numero);
         //  Después crearemos dos for para que vaya comprobando si ese número 
@@ -266,32 +270,37 @@ public class Carton {
     // los numeros ha sido tachado, si así es se le añade un valor a su contador
     // y cuando llegue a 5 mostrará un mensaje indicando en que fila es la linea 
     public void comprobarLinea() {
- 
+
         for (int i = 0; i < this.matrizNumeros.length; i++) {
             int contarFila1 = 0;
             int contarFila2 = 0;
             int contarFila3 = 0;
-        
+
             for (int j = 0; j < this.matrizNumeros[i].length; j++) {
-                
+
                 if (this.matrizNumeros[0][j] == 99) {
                     contarFila1++;
-                    if (contarFila1 == 5 || this.matrizNumeros[1][j] == 99 || this.matrizNumeros[2][j] == 99) {
-                        System.out.println("LINEA....!!!");
-                        return;
-                    }
-                } 
+                    System.out.println("LINEA EN LA FILA 1");
+                }
+                if (this.matrizNumeros[1][j] == 99) {
+                    contarFila2++;
+                    System.out.println("LINEA EN LA FILA 2");
+                }
+                if (this.matrizNumeros[2][j] == 99) {
+                    contarFila3++;
+                    System.out.println("LINEA EN LA FILA 3");
+                }
             }
         }
     }
-    
+
     //  En este método comprobaremos que todos los números del cartón que han sido
     // tachados, si es así nos mostrará un mensaje diciendo que tiene bingo.
     public boolean comprobarBingo() {
         int contador = 0;
         for (int i = 0; i < this.matrizNumeros.length; i++) {
             for (int j = 0; j < this.matrizNumeros[i].length; j++) {
-                
+
                 if (this.matrizNumeros[i][j] == 99) {
                     contador++;
                 }
