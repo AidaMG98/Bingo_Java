@@ -14,7 +14,7 @@ import java.util.Random;
 public class Carton {
 
     // Creamos los atributos de la clase
-    int[][] matrizNumeros;
+    private int[][] matrizNumeros;
 
     // Añadimos el construcor
     public Carton() {

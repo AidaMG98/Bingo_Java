@@ -40,17 +40,7 @@ public class Bombo {
             System.out.println("EL BOMBO YA ESTABA LLENO");
         }
     }
-
-    // FALLA ALGO //
-    /*
-    if (bombo.size() != 0) {
-            val = (int) bombo.remove(r.nextInt(lanzamientos)); //Si existen bolas, que saque una aleatoria. Le pasamos que elimine una bola aleatoria, y que el rango de números aleatorios sea el número de bolas restantes
-            lanzamientos--; //Se resta un número de lanzamiento posible
-            return val; //Devuelve la bola del bingo puesto que la necesitaremos en el main para decir que bola ha salido
-        } else {
-            throw new IndexOutOfBoundsException("El bombo está vacío"); //Tira una excepción diciendo que el bombo está vacío
-        }
-     */
+    
     // Método de tipo entero para sacar bolas del bombo.
     public int sacarBola() {
         // Creamos un atributo Random(llamado, atl) y un número entero

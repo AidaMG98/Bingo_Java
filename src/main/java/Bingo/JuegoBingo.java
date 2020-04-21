@@ -40,65 +40,70 @@ public class JuegoBingo {
                         Carton carton = new Carton();
                         // Se llenará el bombo
                         bombo.llenarBombo();
-                                    try{
-                                        //  Después genera el cartón
-                                        System.out.println("EL CARTÓN GENERADO ES ESTE: "); 
-                                        carton.generarCarton();
+                        try {
+                            //  Después genera el cartón
+                            System.out.println("EL CARTÓN GENERADO ES ESTE: ");
+                            carton.generarCarton();
+                            carton.mostrarCarton();
+                            do {
+                                try {
+                                    //  Si no nos gusta podremos generar otro 
+                                    System.out.println("------------------¿QUIERES OTRO CARTÓN?------------------"
+                                            + "\n1. SI" + "\n2. NO");
+                                    opciones = teclado.nextInt();
+
+                                    switch (opciones) {
+                                        case 1:
+                                            System.out.println("EL CARTÓN NUEVO ES ESTE: ");
+                                            carton.generarCarton();
+                                            carton.mostrarCarton();
+                                        case 2:
+                                            break;
+                                        default:
+                                            System.out.println("SOLO HAY DOS OPSICONES");
+                                    }
+                                } catch (InputMismatchException e) {
+                                    System.out.println("DEBE SER UN NÚMERO");
+                                    teclado.next();
+                                }
+                            } while (opciones != 2);
+                        } catch (InputMismatchException e) {
+                            System.out.println("DEBE SER UN NÚMERO");
+                            teclado.next();
+                        }
+                        //  Luego se genera un bucle hasta que se haga bingo
+                        while (carton.comprobarBingo() == false) {
+                            try {
+                                System.out.println("------------------¿QUE QUIERES HACER?------------------"
+                                        + "\n1. SACAR BOLA" + "\n2. NÚMERO DE BOLAS QUE QUEDAN" + "\n3. MOSTRAR CARTÓN"
+                                        + "\n4. COMPROBAR LINEA" + "\n5. COMRPOBAR BINGO");
+                                opciones = teclado.nextInt();
+                                //  Podremos eleguir que hacemos escribiendo el número con el que es asociado
+                                switch (opciones) {
+                                    case 1:
+                                        carton.tacharCasilla(bombo.sacarBola());
+                                        break;
+                                    case 2:
+                                        bombo.numeroDeBolas();
+                                        break;
+                                    case 3:
                                         carton.mostrarCarton();
-                                    do {
-                                        //  Si no nos gusta podremos generar otro 
-                                        System.out.println("------------------¿QUIERES OTRO CARTÓN?------------------" 
-                                                        + "\n1. SI"+ "\n2. NO");
-                                        opciones = teclado.nextInt();
-                                    
-                                        switch(opciones){
-                                            case 1:
-                                                System.out.println("EL CARTÓN NUEVO ES ESTE: "); 
-                                                carton.generarCarton();
-                                                carton.mostrarCarton();
-                                            case 2:
-                                                break;
-                                             default:
-                                                System.out.println("SOLO HAY DOS OPSICONES");
-                                        }
-                                    } while(opciones != 2);
-                                    } catch (InputMismatchException e) {
-                                        System.out.println("DEBE SER UN NÚMERO");
-                                        teclado.next();
-                                    }
-                                    //  Luego se genera un bucle hasta que se haga bingo
-                                    while(carton.comprobarBingo() == false){
-                                            try{
-                                                System.out.println("------------------¿QUE QUIERES HACER?------------------" 
-                                                                    + "\n1. SACAR BOLA"+ "\n2. NÚMERO DE BOLAS QUE QUEDAN"+"\n3. MOSTRAR CARTÓN" 
-                                                                    + "\n4. COMPROBAR LINEA" + "\n5. COMRPOBAR BINGO");
-                                                opciones = teclado.nextInt();
-                                                //  Podremos eleguir que hacemos escribiendo el número con el que es asociado
-                                                switch(opciones){
-                                                    case 1:
-                                                        carton.tacharCasilla(bombo.sacarBola());
-                                                        break;
-                                                    case 2:
-                                                        bombo.numeroDeBolas();
-                                                        break;
-                                                    case 3:
-                                                        carton.mostrarCarton();
-                                                        break;
-                                                    case 4:
-                                                        carton.comprobarLinea();
-                                                        break;
-                                                    case 5:
-                                                        carton.comprobarBingo();
-                                                        break;
-                                                    default:
-                                                        System.out.println("SOLO HAY CINCO OPCIONES");
-                                                            }
-                                        } catch (InputMismatchException e) {
-                                            System.out.println("DEBE SER UN NÚMERO");
-                                            teclado.next();
-                                        } 
-                                    }
-                                    break;
+                                        break;
+                                    case 4:
+                                        carton.comprobarLinea();
+                                        break;
+                                    case 5:
+                                        carton.comprobarBingo();
+                                        break;
+                                    default:
+                                        System.out.println("SOLO HAY CINCO OPCIONES");
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("DEBE SER UN NÚMERO");
+                                teclado.next();
+                            }
+                        }
+                        break;
                     //  La segunda opción es que no quieras jugar más y se cierra la partida
                     case 2:
                         salir = true;
@@ -109,8 +114,8 @@ public class JuegoBingo {
             } catch (InputMismatchException e) {
                 System.out.println("DEBE SER UN NÚMERO");
                 teclado.next();
-            } 
             }
-           System.out.println("MUCHAS GRACIAS POR LA VISTA");
         }
+        System.out.println("MUCHAS GRACIAS POR LA VISTA");
     }
+}
