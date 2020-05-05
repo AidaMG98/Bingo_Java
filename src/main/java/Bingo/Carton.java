@@ -5,6 +5,9 @@
  */
 package Bingo;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -313,4 +316,35 @@ public class Carton {
         return false;
     }
 
+    public void fichero() {
+        String idFichero = "ficheroCarton.txt";
+        try (BufferedWriter flujo = new BufferedWriter(new FileWriter(idFichero))) {
+            
+            this.generarCarton();
+            flujo.write("-------------------------------CARTÓN-------------------------------");
+            flujo.newLine();
+            for (int[] matrizNumero : matrizNumeros) {
+                for (int j = 0; j < matrizNumero.length; j++) {
+
+                    switch (matrizNumero[j]) {
+                        case 0:
+                            flujo.write(" | " + " " + " | ");
+                            break;
+                        default:
+                            flujo.write(" | " + String.valueOf(matrizNumero[j]) + " | ");
+                            break;
+                    }
+                }
+                flujo.newLine();
+                flujo.write("--------------------------------------------------------------------");
+                flujo.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void main(String[] args) {
+        Carton x = new Carton();
+        x.fichero();
+    }
 }
