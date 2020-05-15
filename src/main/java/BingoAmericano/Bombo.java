@@ -22,17 +22,13 @@ public abstract class Bombo {
         return 0;
     }
     
-    public void llenarBombo(){
-    
-    }
+    public abstract void llenarBombo();
     
     public int bolasDentro(){
         return 0;
-    
     }
     
     public boolean vacio(){
         return false;
-    
     }
 }
