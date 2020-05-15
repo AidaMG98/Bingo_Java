@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author herma
  */
-public class BomboAmericano extends Bombo {
+public final class BomboAmericano extends Bombo {
     static final int cantidadBolas = 75;
 
     public BomboAmericano(List listaBombo) {

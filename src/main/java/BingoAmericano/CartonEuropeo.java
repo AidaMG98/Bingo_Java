@@ -9,7 +9,7 @@ package BingoAmericano;
  *
  * @author herma
  */
-public class CartonEuropeo extends Carton {
+public final class CartonEuropeo extends Carton {
     
     static public final int FILAS = 3;
     static public final int COLUMNAS = 9;

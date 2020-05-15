@@ -11,7 +11,7 @@ import java.time.LocalDate;
  *
  * @author herma
  */
-public class BingoAmericano extends Bingo {
+public final class BingoAmericano extends Bingo {
     private CartonAmericano carton;
     private BomboAmericano bombo;
 
