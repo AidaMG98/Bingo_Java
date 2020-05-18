@@ -5,8 +5,7 @@
  */
 package BingoAmericano;
 
-import java.util.List;
-import java.util.Random;
+import java.util.Collections;
 
 /**
  *
@@ -14,46 +13,18 @@ import java.util.Random;
  */
 public final class BomboAmericano extends Bombo {
 
-    static final int CANTIDADBOLAS = 75;
-    private static int restar = CANTIDADBOLAS;
+    private static final int CANTIDADBOLAS = 75;
 
-    public BomboAmericano(List listaBombo) {
-        super(listaBombo);
-    }
+    public BomboAmericano() {
+        llenarBombo();
 
-    @Override
-    public int sacarBola() {
-        
-        Random alt = new Random();
-        int posicion; 
-        posicion = (int) listaBombo.remove(alt.nextInt(this.restar));
-        this.restar--;
-        return posicion;
     }
 
     @Override
     public void llenarBombo() {
-        int bolas = 75;
-        
-        if (CANTIDADBOLAS == bolas) {
-            for (int i = 1; i <= bolas; i++) {
-                this.listaBombo.add(i);
-            }
-            
-            System.out.println("EL BOMBO SE HA LLENO");
-        } else {
-            System.out.println("EL BOMBO YA ESTABA LLENO");
+        for (int i = 1; i <= CANTIDADBOLAS; i++) {
+            this.getListaBombo().add(i);
         }
+        Collections.shuffle(super.getListaBombo());
     }
-    
-    @Override
-     public int bolasDentro(){
-        return this.restar;
-    }
-    
-    @Override
-      public boolean vacio(){
-          return listaBombo.isEmpty();
-    }
-    
 }
