@@ -5,6 +5,7 @@
  */
 package BingoAmericano;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,23 +13,32 @@ import java.util.List;
  * @author herma
  */
 public abstract class Bombo {
-    List listaBombo;
+    private List<Integer> listaBombo;
 
-    public Bombo(List listaBombo) {
-        this.listaBombo = listaBombo;
+    public Bombo() {
+        this.listaBombo = new ArrayList<>();
     }
     
     public int sacarBola(){
-        return 0;
+        return listaBombo.remove(0);
     }
     
     public abstract void llenarBombo();
     
     public int bolasDentro(){
-        return 0;
+        return listaBombo.size();
     }
     
     public boolean vacio(){
-        return false;
+        return listaBombo.isEmpty();
+    }
+
+    public List<Integer> getListaBombo() {
+        return listaBombo;
+    }
+
+    @Override
+    public String toString() {
+        return "Bombo{" + "listaBombo=" + listaBombo + '}';
     }
 }
