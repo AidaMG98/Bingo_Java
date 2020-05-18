@@ -5,9 +5,6 @@
  */
 package BingoAmericano;
 
-import java.util.List;
-import java.util.Random;
-
 /**
  *
  * @author herma
