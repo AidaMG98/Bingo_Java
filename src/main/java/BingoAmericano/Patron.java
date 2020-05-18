@@ -5,16 +5,163 @@
  */
 package BingoAmericano;
 
+import java.awt.Point;
+import java.util.ArrayList;
+
 /**
  *
  * @author herma
  */
 public enum Patron {
-    PATRON_F,
-    PATRON_Z,
-    PATRON_C,
-    PATRON_E,
-    PATRON_O;
+    PATRON_F(cartonF(), "Cartón con una F"),
+    PATRON_C(cartonC(), "Cartón con una C"),
+    PATRON_E(cartonE(), "Cartón con una E"),
+    PATRON_U(cartonU(), "Cartón con una U"),
+    PATRON_O(cartonO(), "Cartón con una O");
+
+    private ArrayList<Point> casillas;
+    private String descripcion;
+
+    private Patron(ArrayList<Point> casillas, String descripcion) {
+        this.casillas = casillas;
+        this.descripcion = descripcion;
+    }
+
+    public ArrayList<Point> getCasillas() {
+        return casillas;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    @Override
+    public String toString() {
+        return "Patron{" + "casillas=" + casillas + ", descripcion=" + descripcion + '}';
+    }
+
+    private static ArrayList<Point> cartonF() {
+        ArrayList<Point> aux = new ArrayList<>();
+
+        aux.add(new Point(0, 0));
+        aux.add(new Point(0, 1));
+        aux.add(new Point(0, 2));
+        aux.add(new Point(0, 3));
+        aux.add(new Point(0, 4));
+
+        aux.add(new Point(1, 0));
+
+        aux.add(new Point(2, 0));
+        aux.add(new Point(2, 1));
+        aux.add(new Point(2, 2));
+
+        aux.add(new Point(3, 0));
+
+        aux.add(new Point(4, 0));
+
+        return aux;
+    }
+
+    private static ArrayList<Point> cartonC() {
+        ArrayList<Point> aux = new ArrayList<>();
+
+        aux.add(new Point(0, 0));
+        aux.add(new Point(0, 1));
+        aux.add(new Point(0, 2));
+        aux.add(new Point(0, 3));
+        aux.add(new Point(0, 4));
+
+        aux.add(new Point(1, 0));
+
+        aux.add(new Point(2, 0));
+
+        aux.add(new Point(3, 0));
+
+        aux.add(new Point(4, 0));
+        aux.add(new Point(4, 1));
+        aux.add(new Point(4, 2));
+        aux.add(new Point(4, 3));
+        aux.add(new Point(4, 4));
+
+        return aux;
+    }
+
+    private static ArrayList<Point> cartonE() {
+        ArrayList<Point> aux = new ArrayList<>();
+
+        aux.add(new Point(0, 0));
+        aux.add(new Point(0, 1));
+        aux.add(new Point(0, 2));
+        aux.add(new Point(0, 3));
+        aux.add(new Point(0, 4));
+
+        aux.add(new Point(1, 0));
+
+        aux.add(new Point(2, 0));
+        aux.add(new Point(2, 1));
+        aux.add(new Point(2, 2));
+
+        aux.add(new Point(3, 0));
+
+        aux.add(new Point(4, 0));
+        aux.add(new Point(4, 1));
+        aux.add(new Point(4, 2));
+        aux.add(new Point(4, 3));
+        aux.add(new Point(4, 4));
+
+        return aux;
+    }
+
+    private static ArrayList<Point> cartonO() {
+        ArrayList<Point> aux = new ArrayList<>();
+
+        aux.add(new Point(0, 0));
+        aux.add(new Point(0, 1));
+        aux.add(new Point(0, 2));
+        aux.add(new Point(0, 3));
+        aux.add(new Point(0, 4));
+
+        aux.add(new Point(1, 0));
+        aux.add(new Point(1, 4));
+        
+        aux.add(new Point(2, 0));
+        aux.add(new Point(2, 4));
+
+        aux.add(new Point(3, 0));
+        aux.add(new Point(3, 4));
+
+        aux.add(new Point(4, 0));
+        aux.add(new Point(4, 1));
+        aux.add(new Point(4, 2));
+        aux.add(new Point(4, 3));
+        aux.add(new Point(4, 4));
+
+        return aux;
+    }
     
-    
+    private static ArrayList<Point> cartonU() {
+        ArrayList<Point> aux = new ArrayList<>();
+
+        aux.add(new Point(0, 0));
+        aux.add(new Point(0, 4));
+
+        aux.add(new Point(1, 0));
+        aux.add(new Point(1, 4));
+        
+        aux.add(new Point(2, 0));
+        aux.add(new Point(2, 4));
+
+        aux.add(new Point(3, 0));
+        aux.add(new Point(3, 4));
+
+        aux.add(new Point(4, 0));
+        aux.add(new Point(4, 1));
+        aux.add(new Point(4, 2));
+        aux.add(new Point(4, 3));
+        aux.add(new Point(4, 4));
+
+        return aux;
+    }
+            
+
 }
