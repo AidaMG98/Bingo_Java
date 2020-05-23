@@ -5,6 +5,8 @@
  */
 package BingoAmericano;
 
+import java.util.Collections;
+
 /**
  *
  * @author herma
@@ -20,6 +22,7 @@ public final class BomboEuropeo extends Bombo {
     public void llenarBombo() {
         for (int i = 1; i <= CANTIDADBOLAS; i++) {
             this.getListaBombo().add(i);
-        }   
+        }
+        Collections.shuffle(super.getListaBombo());
     }
 }
