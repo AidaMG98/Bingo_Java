@@ -19,8 +19,8 @@ public enum Patron {
     PATRON_U(cartonU(), "Cartón con una U"),
     PATRON_O(cartonO(), "Cartón con una O");
 
-    private ArrayList<Point> casillas;
-    private String descripcion;
+    private final ArrayList<Point> casillas;
+    private final String descripcion;
 
     private Patron(ArrayList<Point> casillas, String descripcion) {
         this.casillas = casillas;
@@ -161,6 +161,10 @@ public enum Patron {
         aux.add(new Point(4, 4));
 
         return aux;
+    }
+
+    Object get(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
             
 
