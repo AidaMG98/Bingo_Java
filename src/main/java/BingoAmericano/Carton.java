@@ -6,6 +6,7 @@
 package BingoAmericano;
 
 import java.awt.Point;
+import java.util.List;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.awt.Point;
  */
 public abstract class Carton {
 
-    int[][] matriz;
+    private int[][] matriz;
     private int filas;
     private int columnas;
 
@@ -101,6 +102,10 @@ public abstract class Carton {
 
     public void setColumnas(int columnas) {
         this.columnas = columnas;
+    }
+
+    List<?> getListaBombo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 
