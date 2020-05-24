@@ -17,7 +17,6 @@ public final class BomboAmericano extends Bombo {
 
     public BomboAmericano() {
         llenarBombo();
-
     }
 
     @Override
