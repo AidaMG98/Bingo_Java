@@ -5,9 +5,6 @@
  */
 package BingoAmericano;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -23,10 +20,11 @@ public final class CartonAmericano extends Carton {
     public CartonAmericano() {
         super(FILAS, COLUMNAS);
         this.premio = getPatron();
+        generarCarton();
     }
-    
+
     public Patron getPatron() {
-         Random aletorio = new Random();
+        Random aletorio = new Random();
         int numero = aletorio.nextInt(5) + 1;
 
         switch (numero) {
@@ -43,28 +41,78 @@ public final class CartonAmericano extends Carton {
         }
     }
 
-     @Override
+    @Override
     public void generarCarton() {
-         for (int i = 0; i < super.getMatriz().length; i++) {
-             for (int j = 0; j < super.getMatriz()[i].length; j++) {
-                 super.getMatriz()[i][j]= 1;
-             }
-         }
-        
+        Random alt = new Random();
+        int numero;
+
+        for (int i = 0; i < this.premio.getCasillas().size(); i++) {
+            super.getMatriz()[(int) this.premio.getCasillas().get(i).getX()][(int) this.premio.getCasillas().get(i).getY()] = 99;
+        }
+
+        for (int i = 0; i < super.getMatriz().length; i++) {
+            for (int j = 0; j < super.getMatriz()[i].length; j++) {
+
+                if (super.getMatriz()[i][j] == 99) {
+
+                    switch (j) {
+                        case 0:
+                            do {
+                                numero = alt.nextInt(15) + 1;
+                            } while (numero == super.getMatriz()[0][j] || numero == super.getMatriz()[1][j] || numero == super.getMatriz()[2][j] || numero == super.getMatriz()[3][j] || numero == super.getMatriz()[4][j]);
+                            super.getMatriz()[i][0] = numero;
+                            break;
+                        case 1:
+                            do {
+                                numero = alt.nextInt(15) + 15;
+                            } while (numero == super.getMatriz()[0][j] || numero == super.getMatriz()[1][j] || numero == super.getMatriz()[2][j] || numero == super.getMatriz()[3][j] || numero == super.getMatriz()[4][j]);
+                            super.getMatriz()[i][1] = numero;
+                            break;
+                        case 2:
+                            do {
+                                numero = alt.nextInt(45 - 31 + 1) + 31;
+                            } while (numero == super.getMatriz()[0][j] || numero == super.getMatriz()[1][j] || numero == super.getMatriz()[2][j] || numero == super.getMatriz()[3][j] || numero == super.getMatriz()[4][j]);
+                            super.getMatriz()[i][2] = numero;
+                            break;
+                        case 3:
+                            do {
+                                numero = alt.nextInt(61 - 46) + 46;
+                            } while (numero == super.getMatriz()[0][j] || numero == super.getMatriz()[1][j] || numero == super.getMatriz()[2][j] || numero == super.getMatriz()[3][j] || numero == super.getMatriz()[4][j]);
+                            super.getMatriz()[i][3] = numero;
+                            break;
+                        case 4:
+                            do {
+                                numero = alt.nextInt(75 - 61) + 61;
+                            } while (numero == super.getMatriz()[0][j] || numero == super.getMatriz()[1][j] || numero == super.getMatriz()[2][j] || numero == super.getMatriz()[3][j] || numero == super.getMatriz()[4][j]);
+                            super.getMatriz()[i][4] = numero;
+                            break;
+                    }
+                }
+            }
+        }
     }
-    
+
     @Override
     public String toString() {
-        String titulo = ("  B    I    N    G    O");
+        String titulo = ("  B       I       N       G       O");
         String carton = "\n";
-         for (int i = 0; i < this.matriz.length; i++) {
-             for (int j = 0; j < this.matriz[i].length; j++) {
-                 carton += "| " +this.matriz[i][j] + " |";
-             }
-             carton += "\n";
+        for (int i = 0; i < this.getMatriz().length; i++) {
+            for (int j = 0; j < this.getMatriz()[i].length; j++) {
+                switch (super.getMatriz()[i][j]) {
+                    case 0:
+                        carton += ("|" + "  " + "|\t");
+                        break;
+                    case 99:
+                        carton += ("|" + "X" + "|\t");
+                        break;
+                    default:
+                        carton += "|" + this.getMatriz()[i][j] + "|\t";
+                        break;
+                }
+            }
+            carton += "\n";
         }
-        
+
         return titulo + carton;
     }
-    
 }
