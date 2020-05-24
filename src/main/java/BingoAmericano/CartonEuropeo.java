@@ -110,24 +110,24 @@ public final class CartonEuropeo extends Carton {
 
         for (int[] matrizNumero : this.getMatriz()) {
             for (int j = 0; j < matrizNumero.length; j++) {
-                while (this.getMatriz()[0][j] != 99 && this.getMatriz()[1][j] != 99 && this.getMatriz()[2][j] != 99) {
+                while (this.getMatriz()[0][j] != 0 && this.getMatriz()[1][j] != 0 && this.getMatriz()[2][j] != 0) {
                     valor = alt.nextInt(3);
                     switch (valor) {
                         case 0:
                             if (fila0 < 3) {
-                                this.getMatriz()[0][j] = 99;
+                                this.getMatriz()[0][j] = 0;
                                 fila0++;
                             }
                             break;
                         case 1:
                             if (fila1 < 3) {
-                                this.getMatriz()[1][j] = 99;
+                                this.getMatriz()[1][j] = 0;
                                 fila1++;
                             }
                             break;
                         case 2:
                             if (fila2 < 3) {
-                                this.getMatriz()[2][j] = 99;
+                                this.getMatriz()[2][j] = 0;
                                 fila2++;
                             }
                             break;
@@ -146,10 +146,10 @@ public final class CartonEuropeo extends Carton {
         for (int i = 0; i < super.getMatriz().length; i++) {
             for (int j = 0; j < super.getMatriz()[i].length; j++) {
                 switch (super.getMatriz()[i][j]) {
-                    case 99:
+                    case 0:
                         casilla += ("\033[34m" + " | " + " " + " | ");
                         break;
-                    case 0:
+                    case 99:
                         casilla += ("\033[34m" + " | " + "\033[31m" + "X" + "\033[34m" + " | ");
                         break;
                     default:
