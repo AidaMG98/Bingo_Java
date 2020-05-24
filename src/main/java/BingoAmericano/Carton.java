@@ -5,8 +5,7 @@
  */
 package BingoAmericano;
 
-import java.awt.Point;
-
+//import java.awt.Point;
 /**
  *
  * @author herma
@@ -25,7 +24,7 @@ public abstract class Carton {
 
     public abstract void generarCarton();
 
-    public Point tacharNumero(int numero) {
+    public int tacharNumero(int numero) {
         for (int[] matrizNumero : this.matriz) {
             for (int j = 0; j < matrizNumero.length; j++) {
                 if (matrizNumero[j] == numero) {
@@ -33,32 +32,38 @@ public abstract class Carton {
                 }
             }
         }
-        return null;
+        return numero;
     }
 
     public boolean esLinea(int numeroFila) {
         int contarFila1 = 0, contarFila2 = 0, contarFila3 = 0;
         
-        for (int i = 0; i < this.matriz.length; i++) {            
-            for (int j = 0; j < this.matriz[i].length; j++) {
-
-                if (this.matriz[0][j] == 0) {
-                    contarFila1++;
-                }
-                if (this.matriz[1][j] == 0) {
-                    contarFila2++;
-                }
-                if (this.matriz[2][j] == 0) {
-                    contarFila3++;
+        for (int i = 0; i < this.getMatriz().length; i++) {
+            for (int j = 0; j < this.getMatriz()[i].length; j++) {
+                if (this.getMatriz()[i][j] == 0) {
+                    if (this.getMatriz()[0][j] == 0) { contarFila1++; }
+                    if (this.getMatriz()[1][j] == 0) { contarFila2++; }
+                    if (this.getMatriz()[2][j] == 0) { contarFila3++; }
+                     
                 }
             }
         }
         
         for (int i = 0; i < this.getMatriz().length; i++) {
             for (int j = 0; j < this.getMatriz()[i].length; j++) {
-                if (contarFila1 == (filas) || contarFila2 == (filas) || contarFila3 == (filas)) {
-                    return true;
+                if (this.getMatriz()[i][j] == 99) {
+                    if (this.getMatriz()[0][j] == 99) { contarFila1++; }
+                    if (this.getMatriz()[1][j] == 99) { contarFila2++; }
+                    if (this.getMatriz()[2][j] == 99) { contarFila3++; }
                 }
+            }
+        }
+        
+        for (int i = 0; i < this.getMatriz().length; i++) {
+            for (int j = 0; j < this.getMatriz()[i].length; j++) {
+                if (contarFila1 == filas) {return true;}
+                if (contarFila2 == filas) {return true;}
+                if (contarFila3 == filas) {return true;}
             }
         }
         
