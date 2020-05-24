@@ -161,11 +161,6 @@ public enum Patron {
         aux.add(new Point(4, 4));
 
         return aux;
-    }
-
-    Object get(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-            
+    }    
 
 }
