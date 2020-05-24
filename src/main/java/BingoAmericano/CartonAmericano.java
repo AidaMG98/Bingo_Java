@@ -103,7 +103,7 @@ public final class CartonAmericano extends Carton {
                         carton += ("\033[34m|" + "  " + "|\t");
                         break;
                     case 99:
-                        carton += ("\033[34m||" + "\033[31mX" + "\033[34m||\t");
+                        carton += ("\033[34m|" + "\033[31mX" + "\033[34m|\t");
                         break;
                     default:
                         carton += "\033[34m|" + this.getMatriz()[i][j] + "|\t";
