@@ -13,7 +13,7 @@ import java.util.List;
  * @author herma
  */
 public abstract class Bombo {
-    private List<Integer> listaBombo;
+    private final List<Integer> listaBombo;
 
     public Bombo() {
         this.listaBombo = new ArrayList<>();
