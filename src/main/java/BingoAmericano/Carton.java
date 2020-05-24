@@ -6,7 +6,6 @@
 package BingoAmericano;
 
 import java.awt.Point;
-import java.util.List;
 
 /**
  *
@@ -14,9 +13,9 @@ import java.util.List;
  */
 public abstract class Carton {
 
-    private int[][] matriz;
-    private int filas;
-    private int columnas;
+    private final int[][] matriz;
+    private final int filas;
+    private final int columnas;
 
     public Carton(int filas, int columnas) {
         this.filas = filas;
@@ -38,35 +37,56 @@ public abstract class Carton {
     }
 
     public boolean esLinea(int numeroFila) {
-        for (int i = 0; i < this.matriz.length; i++) {
-            int contarFila1 = 0;
-            int contarFila2 = 0;
-            int contarFila3 = 0;
+        int contarFila1 = 0, contarFila2 = 0, contarFila3 = 0;
+        
+        for (int i = 0; i < this.matriz.length; i++) {            
             for (int j = 0; j < this.matriz[i].length; j++) {
 
-                if (this.matriz[0][j] == 99) {
-                    return true;
+                if (this.matriz[0][j] == 0) {
+                    contarFila1++;
                 }
-                if (this.matriz[1][j] == 99) {
-                    return true;
+                if (this.matriz[1][j] == 0) {
+                    contarFila2++;
                 }
-                if (this.matriz[2][j] == 99) {
+                if (this.matriz[2][j] == 0) {
+                    contarFila3++;
+                }
+            }
+        }
+        
+        for (int i = 0; i < this.getMatriz().length; i++) {
+            for (int j = 0; j < this.getMatriz()[i].length; j++) {
+                if (contarFila1 == (filas) || contarFila2 == (filas) || contarFila3 == (filas)) {
                     return true;
                 }
             }
         }
+        
         return false;
     }
 
     public boolean esbingo() {
         int contador = 0;
-        for (int[] matriz1 : this.matriz) {
-            for (int j = 0; j < matriz1.length; j++) {
-                if (matriz1[j] == 99) {
+
+        for (int i = 0; i < this.getMatriz().length; i++) {
+            for (int j = 0; j < this.getMatriz()[i].length; j++) {
+                if (this.getMatriz()[i][j] == 0) {
                     contador++;
                 }
-                if (contador == 15) {
-                    System.out.println("BINGO....!!!");
+            }
+        }
+
+        for (int i = 0; i < this.getMatriz().length; i++) {
+            for (int j = 0; j < this.getMatriz()[i].length; j++) {
+                if (this.getMatriz()[i][j] == 99) {
+                    contador++;
+                }
+            }
+        }
+
+        for (int i = 0; i < this.getMatriz().length; i++) {
+            for (int j = 0; j < this.getMatriz()[i].length; j++) {
+                if (contador == (filas * columnas)) {
                     return true;
                 }
             }
@@ -77,36 +97,4 @@ public abstract class Carton {
     public int[][] getMatriz() {
         return matriz;
     }
-
-    @Override
-    public String toString() {
-        return "Carton{" + "matriz=" + matriz + ", filas=" + filas + ", columnas=" + columnas + '}';
-    }
-
-
-    public void setMatriz(int[][] matriz) {
-        this.matriz = matriz;
-    }
-
-    public int getFilas() {
-        return filas;
-    }
-
-    public void setFilas(int filas) {
-        this.filas = filas;
-    }
-
-    public int getColumnas() {
-        return columnas;
-    }
-
-    public void setColumnas(int columnas) {
-        this.columnas = columnas;
-    }
-
-    List<?> getListaBombo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-
 }
