@@ -18,9 +18,9 @@ public final class CartonEuropeo extends Carton {
 
     public CartonEuropeo() {
         super(FILAS, COLUMNAS);
+        generarCarton();
     }
 
-    /*NO FUNCIONA*/
     @Override
     public void generarCarton() {
         Random alt = new Random();
@@ -105,38 +105,29 @@ public final class CartonEuropeo extends Carton {
                 }
             }
         }
-        this.eliminarNumero();
-    }
-
-    private void eliminarNumero() {
-
-        int fila0 = 0;
-        int fila1 = 0;
-        int fila2 = 0;
-
-        int valor;
-        Random alt = new Random();
+        
+        int fila0 = 0, fila1 = 0, fila2 = 0 , valor;
 
         for (int[] matrizNumero : this.getMatriz()) {
             for (int j = 0; j < matrizNumero.length; j++) {
-                while (this.getMatriz()[0][j] != 0 && this.getMatriz()[1][j] != 0 && this.getMatriz()[2][j] != 0) {
+                while (this.getMatriz()[0][j] != 99 && this.getMatriz()[1][j] != 99 && this.getMatriz()[2][j] != 99) {
                     valor = alt.nextInt(3);
                     switch (valor) {
                         case 0:
                             if (fila0 < 3) {
-                                this.getMatriz()[0][j] = 0;
+                                this.getMatriz()[0][j] = 99;
                                 fila0++;
                             }
                             break;
                         case 1:
                             if (fila1 < 3) {
-                                this.getMatriz()[1][j] = 0;
+                                this.getMatriz()[1][j] = 99;
                                 fila1++;
                             }
                             break;
                         case 2:
                             if (fila2 < 3) {
-                                this.getMatriz()[2][j] = 0;
+                                this.getMatriz()[2][j] = 99;
                                 fila2++;
                             }
                             break;
@@ -146,53 +137,29 @@ public final class CartonEuropeo extends Carton {
         }
     }
 
-    public void mostrarCarton() {
-        System.out.println("\033[34m" + "-------------------------------CARTÓN-------------------------------");
-        for (int[] matrizNumero : this.getMatriz()) {
-            for (int j = 0; j < matrizNumero.length; j++) {
-                switch (matrizNumero[j]) {
-                    case 0:
-                        System.out.print("\033[34m" + " | " + " " + " | ");
-                        break;
-                    case 99:
-                        System.out.print("\033[34m" + " | " + "\033[31m" + "X" + "\033[34m" + " | ");
-                        break;
-                    default:
-                        System.out.print("\033[34m" + " | " + String.valueOf(matrizNumero[j]) + " | ");
-                        break;
-                }
-            }
-            System.out.println("");
-            System.out.println("\033[34m" + "--------------------------------------------------------------------");
-        }
-
-    }
-
     @Override
     public String toString() {
-        String head = ("\033[34m" + "-------------------------------CARTÓN-------------------------------");
-        String body = null;
-        String end = "";
+        String titulo = ("\033[34m" + "-------------------------------CARTÓN-------------------------------");
+        String casilla = "";
+        String fin = "\033[34m" + "--------------------------------------------------------------------";
 
-        for (int[] matrizNumero : this.getMatriz()) {
-            body = "";
-            for (int j = 0; j < matrizNumero.length; j++) {
-                switch (matrizNumero[j]) {
-                    case 0:
-                        body += ("\033[34m" + " | " + " " + " | ");
-                        break;
+        for (int i = 0; i < super.getMatriz().length; i++) {
+            for (int j = 0; j < super.getMatriz()[i].length; j++) {
+                switch (super.getMatriz()[i][j]) {
                     case 99:
-                        body += ("\033[34m" + " | " + "\033[31m" + "X" + "\033[34m" + " |");
+                        casilla += ("\033[34m" + " | " + " " + " | ");
+                        break;
+                    case 0:
+                        casilla += ("\033[34m" + " | " + "\033[31m" + "X" + "\033[34m" + " | ");
                         break;
                     default:
-                        body += ("\033[34m" + " | " + String.valueOf(matrizNumero[j]) + " |");
+                        casilla += ("\033[34m" + " | " + super.getMatriz()[i][j] + " | ");
                         break;
                 }
             }
-            body += ("\n");
-            end = "\033[34m" + "--------------------------------------------------------------------";
+            casilla += "\n";
         }
-        return head + "\n" + body + end;
-    }
 
+        return titulo + "\n" + casilla + fin;
+    }
 }
