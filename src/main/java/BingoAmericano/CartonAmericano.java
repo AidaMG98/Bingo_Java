@@ -94,19 +94,19 @@ public final class CartonAmericano extends Carton {
 
     @Override
     public String toString() {
-        String titulo = ("  B       I       N       G       O");
+        String titulo = ("\033[34m  B       I       N       G       O");
         String carton = "\n";
         for (int i = 0; i < this.getMatriz().length; i++) {
             for (int j = 0; j < this.getMatriz()[i].length; j++) {
                 switch (super.getMatriz()[i][j]) {
                     case 0:
-                        carton += ("|" + "  " + "|\t");
+                        carton += ("\033[34m|" + "  " + "|\t");
                         break;
                     case 99:
-                        carton += ("|" + "X" + "|\t");
+                        carton += ("\033[34m||" + "\033[31mX" + "\033[34m||\t");
                         break;
                     default:
-                        carton += "|" + this.getMatriz()[i][j] + "|\t";
+                        carton += "\033[34m|" + this.getMatriz()[i][j] + "|\t";
                         break;
                 }
             }
