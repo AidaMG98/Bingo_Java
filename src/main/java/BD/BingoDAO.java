@@ -113,7 +113,7 @@ public class BingoDAO implements IBingo {
 
     @Override
     public int borrarPartida(Bingo borrar) throws SQLException {
-        int numFilas;
+        int numFilas = 0;
 
         String sql = "delete from persona where nombre = ?";
         try (PreparedStatement prest = con.prepareStatement(sql)) {
@@ -125,7 +125,7 @@ public class BingoDAO implements IBingo {
 
     @Override
     public int actualizarNombre(String viejo, String nuevo) throws SQLException {
-        int res;
+        int res = 0;
         String sql = "{call cambiar_nombres (?,?)}";
 
         try (CallableStatement call = con.prepareCall(sql)) {
@@ -136,5 +136,14 @@ public class BingoDAO implements IBingo {
         }
         return res;
     }
-
+    
+    private String listaNumero(Bombo bombo){
+        String lista = "";
+        
+        for (int i = 0; i < bombo.getListaBombo().size(); i++) {
+            lista += bombo.getListaBombo().get(i) + ",";
+        }
+        return lista;
+    }
+    
 }
