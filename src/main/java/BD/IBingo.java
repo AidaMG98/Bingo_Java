@@ -28,5 +28,5 @@ public interface IBingo {
     int borrarPartida(Bingo borrar) throws SQLException;
 
     // Método para modificar el nombre de la persona
-    int actualizarNombre(String pk, Bingo actualizar) throws SQLException;
+    int actualizarNombre(String viejo, String nuevo) throws SQLException;
 }
