@@ -15,8 +15,8 @@ public final class BingoEuropeo extends Bingo {
     private final CartonEuropeo carton;
     private final BomboEuropeo bombo;
 
-    public BingoEuropeo(CartonEuropeo carton, BomboEuropeo bombo, String id, LocalDate fecha, String nombre) {
-        super(id, fecha, nombre);
+    public BingoEuropeo(CartonEuropeo carton, BomboEuropeo bombo, LocalDate fecha, String nombre) {
+        super(fecha, nombre);
         this.carton = carton;
         this.bombo = bombo;
     }
@@ -33,5 +33,4 @@ public final class BingoEuropeo extends Bingo {
     public String toString() {
         return "BingoEuropeo{" + "carton=" + carton + ", bombo=" + bombo + '}';
     }
-    
 }
