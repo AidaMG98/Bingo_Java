@@ -15,8 +15,12 @@ public final class BomboAmericano extends Bombo {
 
     private static final int CANTIDADBOLAS = 75;
 
+    public static int getCANTIDADBOLAS() {
+        return CANTIDADBOLAS;
+    }
+
     public BomboAmericano() {
-        llenarBombo();
+        
     }
 
     @Override
