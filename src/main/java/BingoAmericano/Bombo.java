@@ -39,6 +39,6 @@ public abstract class Bombo {
 
     @Override
     public String toString() {
-        return "Bombo{" + "listaBombo=" + listaBombo + '}';
+        return  " "+listaBombo;
     }
 }
