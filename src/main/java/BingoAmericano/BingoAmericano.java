@@ -12,8 +12,9 @@ import java.time.LocalDate;
  * @author herma
  */
 public final class BingoAmericano extends Bingo {
-    private final CartonAmericano carton;
-    private final BomboAmericano bombo;
+
+    private CartonAmericano carton;
+    private BomboAmericano bombo;
 
     public BingoAmericano(CartonAmericano carton, BomboAmericano bombo, LocalDate fecha, String nombre) {
         super(fecha, nombre);
@@ -21,8 +22,16 @@ public final class BingoAmericano extends Bingo {
         this.bombo = bombo;
     }
 
+    public void setBombo(BomboAmericano bombo) {
+        this.bombo = bombo;
+    }
+
     public BomboAmericano getBombo() {
         return bombo;
+    }
+
+    public void setCarton(CartonAmericano carton) {
+        this.carton = carton;
     }
 
     public CartonAmericano getCarton() {
@@ -33,5 +42,5 @@ public final class BingoAmericano extends Bingo {
     public String toString() {
         return "BingoAmericano{" + "carton=" + carton + ", bombo=" + bombo + '}';
     }
-    
+
 }
