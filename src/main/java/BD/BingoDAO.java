@@ -155,5 +155,8 @@ public class BingoDAO implements IBingo {
         return lista;
     }
     
-    
+    private int tipoBingo(Bingo bingo){
+        int numero = (bingo instanceof BingoEuropeo)?1:2;
+        return numero;     
+    }
 }
