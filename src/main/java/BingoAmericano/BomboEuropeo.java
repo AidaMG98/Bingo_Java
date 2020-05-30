@@ -13,7 +13,11 @@ import java.util.Collections;
  */
 public final class BomboEuropeo extends Bombo {
 
-    static final int CANTIDADBOLAS = 90;
+    private static final int CANTIDADBOLAS = 90;
+
+    public static int getCANTIDADBOLAS() {
+        return CANTIDADBOLAS;
+    }
 
     public BomboEuropeo() {
     }
