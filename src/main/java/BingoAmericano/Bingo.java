@@ -15,9 +15,11 @@ public abstract class Bingo  {
     private String id;
     private LocalDate fecha;
     private String nombre;
-
-    public Bingo(String id, LocalDate fecha, String nombre) {
-        this.id = id;
+    private static int contador = 0;
+    
+    public Bingo(LocalDate fecha, String nombre) {
+        contador++;
+        this.id = "B" + contador;
         this.fecha = fecha;
         this.nombre = nombre;
     }
