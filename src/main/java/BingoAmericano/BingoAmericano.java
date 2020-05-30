@@ -40,7 +40,7 @@ public final class BingoAmericano extends Bingo {
 
     @Override
     public String toString() {
-        return "BingoAmericano{" + "carton=" + carton + ", bombo=" + bombo + '}';
+        return super.toString() +"\n" + carton + "\nBolas: " + bombo;
     }
 
 }
