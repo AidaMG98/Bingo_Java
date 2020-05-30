@@ -42,7 +42,7 @@ public class JuegoBingo {
                                 System.out.println("SE HA LLENADO EL BOMBO");
                                 
                                 CartonEuropeo cartonEuropeo = new CartonEuropeo();
-                                Bingo aida = new BingoEuropeo(cartonEuropeo, bomboEurope, "EUROPEO_1", LocalDate.now(), "Aida");
+                                Bingo aida = new BingoEuropeo(cartonEuropeo, bomboEurope, LocalDate.now(), "Aida");
                                 System.out.println("Y ESTE ES TU CARTÓN");
                                 System.out.println(cartonEuropeo.toString());
                                 while (cartonEuropeo.esbingo() == false) {
@@ -92,7 +92,7 @@ public class JuegoBingo {
                                 System.out.println(cartonEuropeo.toString());
                                 break;
                             case 2:
-                                BingoAmericano bingoAmericano = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), "123", LocalDate.now(), "Aida");
+                                BingoAmericano bingoAmericano = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), LocalDate.now(), "Aida");
                                 System.out.println("SE HA LLENADO EL BOMBO");
                                 System.out.println("Y ESTE ES TU CARTÓN");
                                 System.out.println(bingoAmericano.getCarton().toString());
