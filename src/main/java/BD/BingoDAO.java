@@ -145,5 +145,15 @@ public class BingoDAO implements IBingo {
         }
         return lista;
     }
+    private String listaCarton(Carton carton){
+        String lista = "";
+        for (int i = 0; i < carton.getMatriz().length; i++) {
+            for (int j = 0; j < carton.getMatriz()[i].length; j++) {
+                lista += carton.getMatriz()[i][j] + ",";
+            }
+        }
+        return lista;
+    }
+    
     
 }
