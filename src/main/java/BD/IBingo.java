@@ -5,9 +5,8 @@
  */
 package BD;
 
-import BingoAmericano.Bingo;
+import BingoAmericano.*;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  *
@@ -15,8 +14,6 @@ import java.util.List;
  */
 public interface IBingo {
     
-    // Método para obtener todos los registros de la tabla
-    List<Bingo> mostrarDatos() throws SQLException;
 
     // Método para generar partida guardada
     Bingo cargarPartida(String pk) throws SQLException;
@@ -27,6 +24,4 @@ public interface IBingo {
     // Método para borrar una partida del bingo
     int borrarPartida(Bingo borrar) throws SQLException;
 
-    // Método para modificar el nombre de la persona
-    int actualizarNombre(String viejo, String nuevo) throws SQLException;
 }
