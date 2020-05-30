@@ -6,8 +6,11 @@ create table if not exists bingo
 (id varchar(3),
  fecha date,
  nombre varchar(20),
- tipo int,
- bombo varchar(200),
- carton varchar(200),
+tipo int,
+bombo varchar(300),
+carton varchar(300),
  constraint pk_muebles primary key (id)
  );
+ 
+ select * from bingo;
+ 
