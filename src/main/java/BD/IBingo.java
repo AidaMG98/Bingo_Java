@@ -14,9 +14,11 @@ import java.sql.SQLException;
  */
 public interface IBingo {
     
-
+    // Método para actualizar una partida 
+    int atualizarPartida(String id, Bingo bingo);
+    
     // Método para generar partida guardada
-    Bingo cargarPartida(String pk) throws SQLException;
+    Bingo cargarPartida(String id) throws SQLException;
 
     // Método para insertar una nueva partida de bingo
     int partidaNueva(Bingo nuevo) throws SQLException;
