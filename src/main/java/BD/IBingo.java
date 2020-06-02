@@ -18,12 +18,12 @@ public interface IBingo {
     int atualizarPartida(String id, Bingo bingo);
     
     // Método para generar partida guardada
-    Bingo cargarPartida(String id) throws SQLException;
+    Bingo cargarPartida(String id);
 
     // Método para insertar una nueva partida de bingo
-    int partidaNueva(Bingo nuevo) throws SQLException;
+    int partidaNueva(Bingo nuevo);
 
     // Método para borrar una partida del bingo
-    int borrarPartida(Bingo borrar) throws SQLException;
+    int borrarPartida(Bingo borrar);
 
 }
