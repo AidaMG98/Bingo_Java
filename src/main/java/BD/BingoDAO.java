@@ -28,7 +28,7 @@ public class BingoDAO implements IBingo {
     }
 
     @Override
-    public Bingo cargarPartida(String id) throws SQLException {
+    public Bingo cargarPartida(String id) {
         ResultSet res;
         Bingo bingo = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), LocalDate.now(), id);
 
@@ -58,12 +58,14 @@ public class BingoDAO implements IBingo {
                 }
 
             }
-            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
 
     @Override
-    public int partidaNueva(Bingo nuevo) throws SQLException {
+    public int partidaNueva(Bingo nuevo) {
         int numFilas = 0;
         String sql = "insert into bingo values (?,?,?,?,?,?)";
 
@@ -86,17 +88,21 @@ public class BingoDAO implements IBingo {
                 prest.setString(6, listaCarton(((BingoEuropeo) nuevo).getCarton()));
             }
             numFilas = prest.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return numFilas;
     }
 
     @Override
-    public int borrarPartida(Bingo borrar) throws SQLException {
-        int numFilas;
+    public int borrarPartida(Bingo borrar) {
+        int numFilas = 0;
         String sql = "delete from bingo where id = ?";
         try (PreparedStatement prest = con.prepareStatement(sql)) {
             prest.setString(1, borrar.getId());
             numFilas = prest.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return numFilas;
     }
@@ -187,7 +193,7 @@ public class BingoDAO implements IBingo {
                         prest.setString(3, listaCarton(((BingoEuropeo) bingo).getCarton()));
                         prest.setString(4, bingo.getId());
                     }
-                    
+
                     numFilas = prest.executeUpdate();
                 }
                 return numFilas;
