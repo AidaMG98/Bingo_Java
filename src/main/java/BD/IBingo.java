@@ -15,13 +15,17 @@ import java.util.List;
 public interface IBingo {
     
     // Método para mostrar todas las partidas guardadas
-    List<BingoAmericano> mostrarDatos();
+    List<BingoAmericano> mostrarDatosAmericanos();
+    
+    List<BingoEuropeo> mostrarDatosEuropeos();
     
     // Método para actualizar una partida 
     int atualizarPartida(String id, Bingo bingo);
     
     // Método para generar partida guardada
-    Bingo cargarPartida(String id);
+    BingoAmericano cargarPartidaAmericano(String id);
+    
+    BingoEuropeo cargarPartidaEuropeo(String id);
 
     // Método para insertar una nueva partida de bingo
     int partidaNueva(Bingo nuevo);
