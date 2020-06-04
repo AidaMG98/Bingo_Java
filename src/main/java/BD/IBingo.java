@@ -6,13 +6,16 @@
 package BD;
 
 import BingoAmericano.*;
-import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
  * @author herma
  */
 public interface IBingo {
+    
+    // Método para mostrar todas las partidas guardadas
+    List<BingoAmericano> mostrarDatos();
     
     // Método para actualizar una partida 
     int atualizarPartida(String id, Bingo bingo);
