@@ -11,7 +11,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,11 +29,34 @@ public class BingoDAO implements IBingo {
     public BingoDAO() {
         con = Conexion.getInstance();
     }
+    
+    @Override
+    public List<BingoAmericano> mostrarDatos() {
+       List<BingoAmericano> lista = new ArrayList<>();
+       
+       try (Statement st = con.createStatement()) {
+            ResultSet res = st.executeQuery("select * from bingo");
+            while (res.next()) {
+                BingoAmericano m = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), LocalDate.now(), "");
+                
+                m.setId(res.getString("id"));
+                m.setFecha(res.getDate("fecha").toLocalDate());
+                m.setNombre(res.getString("nombre"));
+                m.setBombo((BomboAmericano) generarBombo(res.getString("bombo")));
+                m.setCarton((CartonAmericano) generarCarton(res.getString("carton")));
+                lista.add(m);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+    }
 
     @Override
     public Bingo cargarPartida(String id) {
         ResultSet res;
-        Bingo bingo = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), LocalDate.now(), id);
+        BingoAmericano bingo = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), LocalDate.now(), id);
 
         String sql = "select * from bingo where id=?";
         try (PreparedStatement prest = con.prepareStatement(sql)) {
@@ -47,16 +73,6 @@ public class BingoDAO implements IBingo {
                     ((BingoAmericano) bingo).setCarton((CartonAmericano) generarCarton(res.getString("carton")));
                     return bingo;
                 }
-
-                if (bingo instanceof BingoEuropeo) {
-                    bingo.setId(res.getString("id"));
-                    bingo.setFecha(res.getDate("fecha").toLocalDate());
-                    bingo.setNombre(res.getString("nombre"));
-                    ((BingoEuropeo) bingo).setBombo((BomboEuropeo) generarBombo(res.getString("bombo")));
-                    ((BingoEuropeo) bingo).setCarton((CartonEuropeo) generarCarton(res.getString("carton")));
-                    return bingo;
-                }
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,7 +131,7 @@ public class BingoDAO implements IBingo {
         return lista;
     }
 
-    private Bombo generarBombo(String lista) {
+    public Bombo generarBombo(String lista) {
         Bombo bombo = new BomboAmericano();
 
         String[] tokens;
@@ -135,7 +151,7 @@ public class BingoDAO implements IBingo {
         return bombo;
     }
 
-    private String listaCarton(Carton carton) {
+    public String listaCarton(Carton carton) {
         String lista = "";
         for (int i = 0; i < carton.getMatriz().length; i++) {
             for (int j = 0; j < carton.getMatriz()[i].length; j++) {
@@ -147,11 +163,12 @@ public class BingoDAO implements IBingo {
 
     private Carton generarCarton(String lista) {
         Carton carton = new CartonAmericano();
-
         String[] tokens;
         tokens = lista.split(",");
+
         int[][] matriz = carton.getMatriz();
         int contador = 0;
+
         if (carton instanceof CartonAmericano) {
             for (int i = 0; i < carton.getMatriz().length; i++) {
                 for (int j = 0; j < carton.getMatriz()[i].length; j++) {
@@ -175,11 +192,9 @@ public class BingoDAO implements IBingo {
 
         try {
             if (cargarPartida(id) == null) {
-                // La persona a actualizar no existe
                 return numFilas;
             } else {
                 try (PreparedStatement prest = con.prepareStatement(sql)) {
-
                     if (bingo instanceof BingoAmericano) {
                         prest.setDate(1, Date.valueOf(bingo.getFecha()));
                         prest.setString(2, listaBombo(((BingoAmericano) bingo).getBombo()));
@@ -201,6 +216,6 @@ public class BingoDAO implements IBingo {
         } catch (SQLException ex) {
             Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+        return numFilas;
     }
 }
