@@ -50,7 +50,7 @@ public abstract class Bingo  {
 
     @Override
     public String toString() {
-        return "ID: " + id + "\nFECHA: " + fecha + "\nNOMBRE: " + nombre;
+        return "\nID: " + id + "\nFECHA: " + fecha + "\nNOMBRE: " + nombre;
     }
     
 }
