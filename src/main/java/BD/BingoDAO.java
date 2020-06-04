@@ -29,21 +29,48 @@ public class BingoDAO implements IBingo {
     public BingoDAO() {
         con = Conexion.getInstance();
     }
-    
+
     @Override
-    public List<BingoAmericano> mostrarDatos() {
-       List<BingoAmericano> lista = new ArrayList<>();
-       
-       try (Statement st = con.createStatement()) {
-            ResultSet res = st.executeQuery("select * from bingo");
+    public List<BingoAmericano> mostrarDatosAmericanos() {
+        List<BingoAmericano> lista = new ArrayList<>();
+
+        try (Statement st = con.createStatement()) {
+            ResultSet res = st.executeQuery("select * from bingo where tipo=2");
             while (res.next()) {
                 BingoAmericano m = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), LocalDate.now(), "");
-                
+
                 m.setId(res.getString("id"));
                 m.setFecha(res.getDate("fecha").toLocalDate());
                 m.setNombre(res.getString("nombre"));
-                m.setBombo((BomboAmericano) generarBombo(res.getString("bombo")));
+                m.setBombo((BomboAmericano) generarBomboAmericano(res.getString("bombo")));
                 m.setCarton((CartonAmericano) generarCarton(res.getString("carton")));
+
+                lista.add(m);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<BingoEuropeo> mostrarDatosEuropeos() {
+
+        List<BingoEuropeo> lista = new ArrayList<>();
+
+        try (Statement st = con.createStatement()) {
+            ResultSet res = st.executeQuery("select * from bingo where tipo=1");
+            while (res.next()) {
+
+                BingoEuropeo m = new BingoEuropeo(new CartonEuropeo(), new BomboEuropeo(), LocalDate.now(), "");
+
+                m.setId(res.getString("id"));
+                m.setFecha(res.getDate("fecha").toLocalDate());
+                m.setNombre(res.getString("nombre"));
+                m.setBombo((BomboEuropeo) generarBomboEuropeo(res.getString("bombo")));
+//                m.setCarton((CartonEuropeo) generarCarton(res.getString("carton")));
                 lista.add(m);
             }
         } catch (SQLException ex) {
@@ -54,7 +81,7 @@ public class BingoDAO implements IBingo {
     }
 
     @Override
-    public Bingo cargarPartida(String id) {
+    public BingoAmericano cargarPartidaAmericano(String id) {
         ResultSet res;
         BingoAmericano bingo = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), LocalDate.now(), id);
 
@@ -65,14 +92,38 @@ public class BingoDAO implements IBingo {
             res = prest.executeQuery();
 
             if (res.next()) {
-                if (bingo instanceof BingoAmericano) {
-                    bingo.setId(res.getString("id"));
-                    bingo.setFecha(res.getDate("fecha").toLocalDate());
-                    bingo.setNombre(res.getString("nombre"));
-                    ((BingoAmericano) bingo).setBombo((BomboAmericano) generarBombo(res.getString("bombo")));
-                    ((BingoAmericano) bingo).setCarton((CartonAmericano) generarCarton(res.getString("carton")));
-                    return bingo;
-                }
+                bingo.setId(res.getString("id"));
+                bingo.setFecha(res.getDate("fecha").toLocalDate());
+                bingo.setNombre(res.getString("nombre"));
+                bingo.setBombo((BomboAmericano) generarBomboAmericano(res.getString("bombo")));
+                bingo.setCarton((CartonAmericano) generarCarton(res.getString("carton")));
+                
+                return bingo;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    @Override
+    public BingoEuropeo cargarPartidaEuropeo(String id) {
+        ResultSet res;
+        BingoEuropeo bingo = new BingoEuropeo(new CartonEuropeo(), new BomboEuropeo(), LocalDate.now(), id);
+
+        String sql = "select * from bingo where id=?";
+        try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+            prest.setString(1, id);
+            res = prest.executeQuery();
+
+            if (res.next()) {
+                bingo.setId(res.getString("id"));
+                bingo.setFecha(res.getDate("fecha").toLocalDate());
+                bingo.setNombre(res.getString("nombre"));
+                bingo.setBombo((BomboEuropeo) generarBomboEuropeo(res.getString("bombo")));
+//                bingo.setCarton((CartonEuropeo) generarCarton(res.getString("carton")));
+                return bingo;
             }
         } catch (SQLException ex) {
             Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,23 +182,27 @@ public class BingoDAO implements IBingo {
         return lista;
     }
 
-    public Bombo generarBombo(String lista) {
-        Bombo bombo = new BomboAmericano();
+    private BomboAmericano generarBomboAmericano(String lista) {
+        BomboAmericano bombo = new BomboAmericano();
 
         String[] tokens;
         tokens = lista.split(",");
 
-        if (bombo instanceof BomboAmericano) {
-            for (int i = 0; i < tokens.length; i++) {
-                bombo.getListaBombo().add(Integer.parseInt(tokens[i]));
-            }
+        for (int i = 0; i < tokens.length; i++) {
+            bombo.getListaBombo().add(Integer.parseInt(tokens[i]));
         }
-        if (bombo instanceof BomboEuropeo) {
-            for (int i = 0; i < tokens.length; i++) {
-                bombo.getListaBombo().add(Integer.parseInt(tokens[i]));
-            }
-        }
+        return bombo;
+    }
 
+    private BomboEuropeo generarBomboEuropeo(String lista) {
+        BomboEuropeo bombo = new BomboEuropeo();
+
+        String[] tokens;
+        tokens = lista.split(",");
+
+        for (int i = 0; i < tokens.length; i++) {
+            bombo.getListaBombo().add(Integer.parseInt(tokens[i]));
+        }
         return bombo;
     }
 
@@ -169,16 +224,15 @@ public class BingoDAO implements IBingo {
         int[][] matriz = carton.getMatriz();
         int contador = 0;
 
-        if (carton instanceof CartonAmericano) {
-            for (int i = 0; i < carton.getMatriz().length; i++) {
-                for (int j = 0; j < carton.getMatriz()[i].length; j++) {
-                    matriz[i][j] = Integer.parseInt(tokens[contador]);
-                    contador++;
-                }
+        for (int i = 0; i < carton.getMatriz().length; i++) {
+            for (int j = 0; j < carton.getMatriz()[i].length; j++) {
+                matriz[i][j] = Integer.parseInt(tokens[contador]);
+                contador++;
             }
         }
         return carton;
     }
+
 
     private int tipoBingo(Bingo bingo) {
         int numero = (bingo instanceof BingoEuropeo) ? 1 : 2;
@@ -188,34 +242,30 @@ public class BingoDAO implements IBingo {
     @Override
     public int atualizarPartida(String id, Bingo bingo) {
         int numFilas = 0;
-        String sql = "update bingo set  fecha = ?, bombo = ?, carton = ? where id=?";
+        String sql = "update bingo set fecha = ?, bombo = ?, carton = ? where id=?";
 
-        try {
-            if (cargarPartida(id) == null) {
-                return numFilas;
-            } else {
-                try (PreparedStatement prest = con.prepareStatement(sql)) {
-                    if (bingo instanceof BingoAmericano) {
-                        prest.setDate(1, Date.valueOf(bingo.getFecha()));
-                        prest.setString(2, listaBombo(((BingoAmericano) bingo).getBombo()));
-                        prest.setString(3, listaCarton(((BingoAmericano) bingo).getCarton()));
-                        prest.setString(4, bingo.getId());
-                    }
+        try (PreparedStatement prest = con.prepareStatement(sql)) {
+            
+            if (bingo instanceof BingoAmericano) {
+                prest.setDate(1, Date.valueOf(bingo.getFecha()));
+                prest.setString(2, listaBombo(((BingoAmericano) bingo).getBombo()));
+                prest.setString(3, listaCarton(((BingoAmericano) bingo).getCarton()));
+                prest.setString(4, bingo.getId());
+            } 
 
-                    if (bingo instanceof BingoEuropeo) {
-                        prest.setDate(1, Date.valueOf(bingo.getFecha()));;
-                        prest.setString(2, listaBombo(((BingoEuropeo) bingo).getBombo()));
-                        prest.setString(3, listaCarton(((BingoEuropeo) bingo).getCarton()));
-                        prest.setString(4, bingo.getId());
-                    }
-
-                    numFilas = prest.executeUpdate();
-                }
-                return numFilas;
+            if (bingo instanceof BingoEuropeo) {
+                prest.setDate(1, Date.valueOf(bingo.getFecha()));
+                prest.setString(2, listaBombo(((BingoEuropeo) bingo).getBombo()));
+                prest.setString(3, listaCarton(((BingoEuropeo) bingo).getCarton()));
+                prest.setString(4, bingo.getId());
             }
+
+            numFilas = prest.executeUpdate();
+
         } catch (SQLException ex) {
             Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return numFilas;
     }
 }
