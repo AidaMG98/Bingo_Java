@@ -13,15 +13,18 @@ import java.time.LocalDate;
  */
 public final class BingoAmericano extends Bingo {
 
+    /*Atributos*/
     private CartonAmericano carton;
     private BomboAmericano bombo;
 
+    /*Constructor*/
     public BingoAmericano(CartonAmericano carton, BomboAmericano bombo, LocalDate fecha, String nombre) {
         super(fecha, nombre);
         this.carton = carton;
         this.bombo = bombo;
     }
-
+    
+    /*Getter & Setter*/
     public void setBombo(BomboAmericano bombo) {
         this.bombo = bombo;
     }
@@ -37,7 +40,8 @@ public final class BingoAmericano extends Bingo {
     public CartonAmericano getCarton() {
         return carton;
     }
-
+    
+    /*toString*/
     @Override
     public String toString() {
         return super.toString() +"\n" + carton + "\nBolas: " + bombo;
