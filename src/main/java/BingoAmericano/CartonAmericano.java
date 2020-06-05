@@ -13,16 +13,18 @@ import java.util.Random;
  */
 public final class CartonAmericano extends Carton {
 
+    /*Atributos*/
     static public final int FILAS = 5;
     static public final int COLUMNAS = 5;
     Patron premio;
 
+    /*Constructor*/
     public CartonAmericano() {
         super(FILAS, COLUMNAS);
         this.premio = getPatron();
         generarCarton();
     }
-
+    /*Método que va a sacar un valor aleatorio y ese valor devolverá uno de los 5 patrones que tenemos*/
     public Patron getPatron() {
         Random aletorio = new Random();
         int numero = aletorio.nextInt(5) + 1;
@@ -40,7 +42,8 @@ public final class CartonAmericano extends Carton {
                 return Patron.PATRON_U;
         }
     }
-
+    /*Método generarCarton primeor va a poner que todos valores que estén en el patron a 99 y después esos valores que son 99 los va a dar
+    un valor aleatorio entre el rango que le hemos indicado que va a ser por columna */
     @Override
     public void generarCarton() {
         Random alt = new Random();
@@ -92,6 +95,8 @@ public final class CartonAmericano extends Carton {
         }
     }
 
+    /*toString en el que creamos tres atributos uno para poner el titulo otro para la casilla y otro para el fin del cartón
+    de pendiendo del valor que tenga la posición pondrá un espacio, una "X" o el numero que tiene que ir en esa posición*/
     @Override
     public String toString() {
         String titulo = ("\033[34m  B       I       N       G       O");
