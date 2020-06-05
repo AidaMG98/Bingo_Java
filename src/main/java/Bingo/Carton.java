@@ -272,51 +272,81 @@ public class Carton {
     //  Este metodo hace dos bucles para ir mirando fila por fila si alguno de
     // los numeros ha sido tachado, si así es se le añade un valor a su contador
     // y cuando llegue a 5 mostrará un mensaje indicando en que fila es la linea 
-    public void comprobarLinea() {
+     public boolean esLinea(int numeroFila) {
+        int contarFila = 0;
 
-        for (int i = 0; i < this.matrizNumeros.length; i++) {
-            int contarFila1 = 0;
-            int contarFila2 = 0;
-            int contarFila3 = 0;
+        switch (numeroFila) {
+            case 1:
 
-            for (int j = 0; j < this.matrizNumeros[i].length; j++) {
+                for (int j = 0; j < this.matrizNumeros[0].length; j++) {
+                    if (this.matrizNumeros[0][j] == 99 || this.matrizNumeros[0][j] == 0) {
+                        contarFila++;
+                    }
+                }
 
-                if (this.matrizNumeros[0][j] == 99) {
-                    contarFila1++;
-                    System.out.println("LINEA EN LA FILA 1");
+                if (contarFila == 9) {
+                    return true;
                 }
-                if (this.matrizNumeros[1][j] == 99) {
-                    contarFila2++;
-                    System.out.println("LINEA EN LA FILA 2");
+                break;
+            case 2:
+                for (int j = 0; j < this.matrizNumeros[1].length; j++) {
+                    if (this.matrizNumeros[1][j] == 99 || this.matrizNumeros[1][j] == 0) {
+                        contarFila++;
+                    }
                 }
-                if (this.matrizNumeros[2][j] == 99) {
-                    contarFila3++;
-                    System.out.println("LINEA EN LA FILA 3");
+
+                if (contarFila == 9) {
+                    return true;
                 }
-            }
+                break;
+            case 3:
+                for (int j = 0; j < this.matrizNumeros[2].length; j++) {
+                    if (this.matrizNumeros[2][j] == 99 || this.matrizNumeros[2][j] == 0) {
+                        contarFila++;
+                    }
+                }
+
+                if (contarFila == 9) {
+                    return true;
+                }
+                break;
         }
+
+        return false;
     }
 
     //  En este método comprobaremos que todos los números del cartón que han sido
     // tachados, si es así nos mostrará un mensaje diciendo que tiene bingo.
     public boolean comprobarBingo() {
         int contador = 0;
-        for (int i = 0; i < this.matrizNumeros.length; i++) {
+        
+         for (int i = 0; i < this.matrizNumeros.length; i++) {
             for (int j = 0; j < this.matrizNumeros[i].length; j++) {
-
-                if (this.matrizNumeros[i][j] == 99) {
+                if (this.matrizNumeros[i][j] == 99 || this.matrizNumeros[i][j] == 0) {
                     contador++;
-                }
-                if (contador == 15) {
-                    System.out.println("BINGO....!!!");
-                    return true;
                 }
             }
         }
-        return false;
+        
+        return contador == (25);
+//        int contador = 0;
+//        for (int i = 0; i < this.matrizNumeros.length; i++) {
+//            for (int j = 0; j < this.matrizNumeros[i].length; j++) {
+//
+//                if (this.matrizNumeros[i][j] == 99) {
+//                    contador++;
+//                }
+//                if (contador == 15) {
+//                    System.out.println("BINGO....!!!");
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
     }
 
     public void fichero() {
+        
         String idFichero = "ficheroCarton.txt";
         try (BufferedWriter flujo = new BufferedWriter(new FileWriter(idFichero))) {
             
@@ -345,6 +375,6 @@ public class Carton {
     }
     public static void main(String[] args) {
         Carton x = new Carton();
-        x.fichero();
+        x.mostrarCarton();
     }
 }
