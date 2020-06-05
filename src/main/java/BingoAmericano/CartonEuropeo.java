@@ -12,15 +12,19 @@ import java.util.Random;
  * @author herma
  */
 public final class CartonEuropeo extends Carton {
-
+    /*Atributos*/
     static public final int FILAS = 3;
     static public final int COLUMNAS = 9;
 
+    /*Constructor*/
     public CartonEuropeo() {
         super(FILAS, COLUMNAS);
         generarCarton();
     }
 
+    /*Método de generarCarton en el que va a ir sumando 1 a la j y va a ir poniendo números por fila si sale el mismo núemero saca otro.
+    Una vez tenga todos los números colocados los ordenan por columnas de menor a mayor, esto lo hace comparando las posiciones que hay en cada columnas.
+    Por ultimo va a poner a 0 tres posiciones de cada filas y luego va a volver a comprará por columnas para que no queda una columna completa a 0 */
     @Override
     public void generarCarton() {
         Random alt = new Random();
@@ -136,7 +140,9 @@ public final class CartonEuropeo extends Carton {
             }
         }
     }
-
+    
+    /*toString en el que creamos tres atributos uno para poner el titulo otro para la casilla y otro para el fin del cartón
+    de pendiendo del valor que tenga la posición pondrá un espacio, una "X" o el numero que tiene que ir en esa posición*/
     @Override
     public String toString() {
         String titulo = ("\033[34m" + "-------------------------------CARTÓN-------------------------------");
