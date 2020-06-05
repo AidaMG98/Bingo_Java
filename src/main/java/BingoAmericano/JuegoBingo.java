@@ -7,7 +7,9 @@ package BingoAmericano;
 
 import BD.BingoDAO;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -54,12 +56,10 @@ public class JuegoBingo {
                                                         BingoEuropeo bingoEuropeo = new BingoEuropeo(new CartonEuropeo(), new BomboEuropeo(), LocalDate.now(), nombre);
 
                                                         /*CONTROLAMOS QUE NO SE BORREN DATOS DE CADA PARTIDA*/
-                                                        if (!bingoDAO.mostrarDatosAmericanos().isEmpty() || !bingoDAO.mostrarDatosEuropeos().isEmpty()) {
-                                                            String nuevoId = "B";
-
-                                                            int numero = bingoDAO.mostrarDatosAmericanos().size() + bingoDAO.mostrarDatosEuropeos().size() + 1;
-                                                            bingoEuropeo.setId(nuevoId + numero);
-
+                                                        if (bingoDAO.mostrarDatosEuropeos().isEmpty()) {
+                                                            bingoEuropeo.setId("EU_" + String.valueOf(bingoDAO.mostrarDatosEuropeos().size() + 1));
+                                                        } else{
+                                                            bingoEuropeo.setId("EU" +String.valueOf(bingoDAO.mostrarDatosEuropeos().size()) + 1);
                                                         }
 
                                                         bingoEuropeo.getBombo().llenarBombo();
@@ -92,8 +92,8 @@ public class JuegoBingo {
                                                                         System.out.println(bingoEuropeo.getBombo().vacio());
                                                                         break;
                                                                     case 4:
-                                                                        if (bingoEuropeo.getCarton().esLinea(1) || bingoEuropeo.getCarton().esLinea(2) | bingoEuropeo.getCarton().esLinea(3)) {
-                                                                            System.out.println("LINEA ");
+                                                                        if (bingoEuropeo.getCarton().esLinea(1) || bingoEuropeo.getCarton().esLinea(2) || bingoEuropeo.getCarton().esLinea(3)) {
+                                                                            System.out.println("LINEA");
                                                                         } else {
                                                                             System.out.println("NO TIENES LINEAS");
                                                                         }
@@ -105,7 +105,7 @@ public class JuegoBingo {
                                                                         break;
                                                                     case 6:
                                                                         System.out.println("GUARDANDO PARTIDA");
-                                                                        bingoDAO.atualizarPartida(bingoEuropeo.getId(), bingoEuropeo);
+                                                                        bingoDAO.atualizarPartidaEuropea(bingoEuropeo.getId(), bingoEuropeo);
                                                                         salir = true;
                                                                         break;
                                                                     default:
@@ -116,18 +116,23 @@ public class JuegoBingo {
                                                                 teclado.next();
                                                             }
                                                         }
+                                                        /*Si el bingo a terminado se borrra*/
+                                                        if (bingoEuropeo.getCarton().esbingo()) {
+                                                            System.out.println("BINGO");
+                                                            bingoDAO.atualizarPartidaEuropea(nombre, bingoEuropeo);
+                                                            salir = true;
+                                                        }
+
                                                         break;
                                                     case 2:
                                                         System.out.println("------------------BINGO AMERICANO------------------");
                                                         BingoAmericano bingoAmericano = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), LocalDate.now(), nombre);
 
                                                         /*CONTROLAMOS QUE NO SE BORREN DATOS DE CADA PARTIDA*/
-                                                        if (!bingoDAO.mostrarDatosAmericanos().isEmpty() || !bingoDAO.mostrarDatosEuropeos().isEmpty()) {
-                                                            String nuevoId = "B";
-
-                                                            int numero = bingoDAO.mostrarDatosAmericanos().size() + bingoDAO.mostrarDatosEuropeos().size() + 1;
-                                                            bingoAmericano.setId(nuevoId + numero);
-
+                                                        if (bingoDAO.mostrarDatosAmericanos().isEmpty()) {
+                                                            bingoAmericano.setId("USA_" + String.valueOf(bingoDAO.mostrarDatosAmericanos().size() + 1));
+                                                        } else{
+                                                            bingoAmericano.setId("USA_" + String.valueOf(bingoDAO.mostrarDatosAmericanos().size() + 1));
                                                         }
 
                                                         bingoAmericano.getBombo().llenarBombo();
@@ -175,7 +180,7 @@ public class JuegoBingo {
                                                                     case 5:
                                                                         /*SALIR*/
                                                                         System.out.println("GUARDANDO PARTIDA");
-                                                                        bingoDAO.atualizarPartida(bingoAmericano.getId(), bingoAmericano);
+                                                                        bingoDAO.atualizarPartidaAmericana(bingoAmericano.getId(), bingoAmericano);
                                                                         salir = true;
                                                                         break;
 
@@ -187,7 +192,14 @@ public class JuegoBingo {
                                                                 teclado.next();
                                                             }
                                                         }
+                                                        /*Si el bingo a terminado se borrra*/
+                                                        if (bingoAmericano.getCarton().esbingo()) {
+                                                            System.out.println("BINGO");
+                                                            bingoDAO.atualizarPartidaAmericana(nombre, bingoAmericano);
+                                                            salir = true;
+                                                        }
                                                         break;
+
                                                     default:
                                                         System.out.println("SOLO TIENES DOS OPCIONES");
                                                 }
@@ -195,8 +207,9 @@ public class JuegoBingo {
                                                 System.out.println("DEBE SER UN NÚMERO");
                                                 teclado.next();
                                             }
-                                        } while (opciones == 1 || opciones == 2 || !salir);
+                                        } while (!salir);
                                         break;
+
                                     case 2:
                                         /*CARGAR PARTIDA*/
                                         do {
@@ -214,9 +227,26 @@ public class JuegoBingo {
                                                         System.out.println("¿QUÉ PAERTIDA QUIERES CARGAR?");
                                                         id = teclado.next();
 
+                                                        boolean alt = false;
+
+                                                        List<String> listaIDEuropea = new ArrayList<>();
+
+                                                        for (int i = 0; i < bingoDAO.mostrarDatosEuropeos().size(); i++) {
+                                                            listaIDEuropea.add(bingoDAO.mostrarDatosEuropeos().get(i).getId());
+                                                        }
+
+                                                        do {
+                                                            if (!listaIDEuropea.contains(id)) {
+                                                                System.out.println("PON UN VALOR CORRECTO");
+                                                                id = teclado.next();
+                                                            } else {
+                                                                alt = true;
+                                                            }
+                                                        } while (!alt);
+
                                                         bingoDAO.cargarPartidaEuropeo(id);
                                                         BingoEuropeo copiaEU = new BingoEuropeo(bingoDAO.cargarPartidaEuropeo(id).getCarton(), bingoDAO.cargarPartidaEuropeo(id).getBombo(), bingoDAO.cargarPartidaEuropeo(id).getFecha(), bingoDAO.cargarPartidaEuropeo(id).getNombre());
-
+                                                        System.out.println(copiaEU);
                                                         while (!copiaEU.getCarton().esbingo() && !salir) {
                                                             try {
                                                                 System.out.println("------------------¿QUE QUIERES HACER?------------------"
@@ -236,7 +266,7 @@ public class JuegoBingo {
                                                                         System.out.println(copiaEU.getBombo().vacio());
                                                                         break;
                                                                     case 4:
-                                                                        if (copiaEU.getCarton().esLinea(1) || copiaEU.getCarton().esLinea(2) | copiaEU.getCarton().esLinea(3)) {
+                                                                        if (copiaEU.getCarton().esLinea(1) || copiaEU.getCarton().esLinea(2) || copiaEU.getCarton().esLinea(3)) {
                                                                             System.out.println("LINEA ");
                                                                         } else {
                                                                             System.out.println("NO TIENES LINEAS");
@@ -249,16 +279,23 @@ public class JuegoBingo {
                                                                         break;
                                                                     case 6:
                                                                         System.out.println("GUARDANDO PARTIDA");
-                                                                        bingoDAO.atualizarPartida(copiaEU.getId(), copiaEU);
+                                                                        bingoDAO.atualizarPartidaEuropea(id, copiaEU);
                                                                         salir = true;
                                                                         break;
                                                                     default:
                                                                         System.out.println("SOLO HAY SEIS OPCIONES");
                                                                 }
-                                                            } catch (InputMismatchException e) {
+                                                            } catch (NullPointerException e) {
                                                                 System.out.println("DEBE SER UN NÚMERO");
                                                                 teclado.next();
                                                             }
+                                                        }
+                                                        /*Si se canta bingo se borra de la bbdd */
+
+                                                        if (copiaEU.getCarton().esbingo()) {
+                                                            System.out.println("BINGO");
+                                                            bingoDAO.atualizarPartidaEuropea(id, copiaEU);
+                                                            salir = true;
                                                         }
                                                         break;
                                                     case 2:
@@ -269,17 +306,34 @@ public class JuegoBingo {
                                                         System.out.println("¿QUÉ PAERTIDA QUIERES CARGAR?");
                                                         id = teclado.next();
 
+                                                        boolean tmp = false;
+                                                        List<String> listaIDAmericana = new ArrayList<>();
+
+                                                        for (int i = 0; i < bingoDAO.mostrarDatosAmericanos().size(); i++) {
+                                                            listaIDAmericana.add(bingoDAO.mostrarDatosAmericanos().get(i).getId());
+                                                        }
+
+                                                        do {
+                                                            if (!listaIDAmericana.contains(id)) {
+                                                                System.out.println("PON UN VALOR CORRECTO");
+                                                                id = teclado.next();
+                                                            } else {
+                                                                tmp = true;
+                                                            }
+                                                        } while (!tmp);
+
                                                         bingoDAO.cargarPartidaAmericano(id);
                                                         BingoAmericano copiaAM = new BingoAmericano(bingoDAO.cargarPartidaAmericano(id).getCarton(), bingoDAO.cargarPartidaAmericano(id).getBombo(), bingoDAO.cargarPartidaAmericano(id).getFecha(), id);
+                                                        System.out.println(copiaAM);
 
-                                                        while (!bingoDAO.cargarPartidaAmericano(id).getCarton().esbingo() && !salir) {
+                                                        while (!copiaAM.getCarton().esbingo() && !salir) {
                                                             try {
                                                                 System.out.println("------------------¿QUE QUIERES HACER?------------------"
                                                                         + "\n1. SACAR BOLA" + "\n2. NÚMERO DE BOLAS QUE QUEDAN" + "\n3. COMPROBAR BOMBO"
                                                                         + "\n4. COMRPOBAR BINGO" + "\n5. SALIR");
 
                                                                 opciones = teclado.nextInt();
-                                                                
+
                                                                 switch (opciones) {
                                                                     case 1:
                                                                         /*SACAR BOLA*/
@@ -307,7 +361,7 @@ public class JuegoBingo {
                                                                     case 5:
                                                                         /*SALIR*/
                                                                         System.out.println("GUARDANDO PARTIDA");
-                                                                        bingoDAO.atualizarPartida(copiaAM.getId(), copiaAM);
+                                                                        bingoDAO.atualizarPartidaAmericana(id, copiaAM);
                                                                         salir = true;
                                                                         break;
                                                                     default:
@@ -318,21 +372,30 @@ public class JuegoBingo {
                                                                 teclado.next();
                                                             }
                                                         }
+                                                        /*Si se canta bingo se borra de la bbdd */
+                                                        if (copiaAM.getCarton().esbingo()) {
+                                                            System.out.println("BINGO");
+                                                            bingoDAO.atualizarPartidaAmericana(id, copiaAM);
+                                                            salir = true;
+                                                        }
+
                                                         break;
+
                                                 }
                                             } catch (InputMismatchException e) {
                                                 System.out.println("DEBE SER UN NÚMERO");
                                                 teclado.next();
                                             }
-                                        } while (opciones == 1 || opciones == 2 || !salir);
+                                        } while (!salir);
                                         break;
                                 }
                             } catch (InputMismatchException e) {
                                 System.out.println("DEBE SER UN NÚMERO");
                                 teclado.next();
                             }
-                        } while (opciones == 1 || opciones == 2 || !salir);
+                        } while (!salir);
                         break;
+
                     case 2:
                         salir = true;
                         break;
@@ -344,5 +407,8 @@ public class JuegoBingo {
                 teclado.next();
             }
         }
+
+        System.out.println(
+                "GRACIAS POR JUGAR");
     }
 }
