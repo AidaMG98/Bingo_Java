@@ -13,16 +13,20 @@ import java.util.Collections;
  */
 public final class BomboAmericano extends Bombo {
 
+    /*Atributo*/
     private static final int CANTIDADBOLAS = 75;
 
+    /*Constructor*/
+    public BomboAmericano() {
+        
+    }
+    
+    /*Getter*/
     public static int getCANTIDADBOLAS() {
         return CANTIDADBOLAS;
     }
 
-    public BomboAmericano() {
-        
-    }
-
+    /*Método de llenar Bombo*/
     @Override
     public void llenarBombo() {
         for (int i = 1; i <= CANTIDADBOLAS; i++) {
