@@ -34,8 +34,13 @@ public class BingoDAO implements IBingo {
     public List<BingoAmericano> mostrarDatosAmericanos() {
         List<BingoAmericano> lista = new ArrayList<>();
 
+        // Preparamos la consulta de datos mediante un objeto Statement
+        // ya que no necesitamos parametrizar la sentencia SQL
         try (Statement st = con.createStatement()) {
+
+            // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             ResultSet res = st.executeQuery("select * from bingo where tipo=2");
+            // Ahora construimos la lista, recorriendo el ResultSet y mapeando los datos
             while (res.next()) {
                 BingoAmericano m = new BingoAmericano(new CartonAmericano(), new BomboAmericano(), LocalDate.now(), "");
 
@@ -43,10 +48,9 @@ public class BingoDAO implements IBingo {
                 m.setFecha(res.getDate("fecha").toLocalDate());
                 m.setNombre(res.getString("nombre"));
                 m.setBombo((BomboAmericano) generarBomboAmericano(res.getString("bombo")));
-                m.setCarton((CartonAmericano) generarCarton(res.getString("carton")));
-
+                m.setCarton((CartonAmericano) generarCartonAmericano(res.getString("carton")));
+                //Añadimos el objeto a la lista
                 lista.add(m);
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,9 +63,12 @@ public class BingoDAO implements IBingo {
     public List<BingoEuropeo> mostrarDatosEuropeos() {
 
         List<BingoEuropeo> lista = new ArrayList<>();
-
+        // Preparamos la consulta de datos mediante un objeto Statement
+        // ya que no necesitamos parametrizar la sentencia SQL
         try (Statement st = con.createStatement()) {
+            // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             ResultSet res = st.executeQuery("select * from bingo where tipo=1");
+            // Ahora construimos la lista, recorriendo el ResultSet y mapeando los datos
             while (res.next()) {
 
                 BingoEuropeo m = new BingoEuropeo(new CartonEuropeo(), new BomboEuropeo(), LocalDate.now(), "");
@@ -70,7 +77,8 @@ public class BingoDAO implements IBingo {
                 m.setFecha(res.getDate("fecha").toLocalDate());
                 m.setNombre(res.getString("nombre"));
                 m.setBombo((BomboEuropeo) generarBomboEuropeo(res.getString("bombo")));
-//                m.setCarton((CartonEuropeo) generarCarton(res.getString("carton")));
+                m.setCarton((CartonEuropeo) generarCartonEuropeo(res.getString("carton")));
+                //Añadimos el objeto a la lista
                 lista.add(m);
             }
         } catch (SQLException ex) {
@@ -87,17 +95,19 @@ public class BingoDAO implements IBingo {
 
         String sql = "select * from bingo where id=?";
         try (PreparedStatement prest = con.prepareStatement(sql)) {
-
+            // Preparamos la sentencia parametrizada
             prest.setString(1, id);
+            // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             res = prest.executeQuery();
-
+            // Nos posicionamos en el primer registro del Resultset. Sólo debe haber una fila
+            // si existe esa id
             if (res.next()) {
                 bingo.setId(res.getString("id"));
                 bingo.setFecha(res.getDate("fecha").toLocalDate());
                 bingo.setNombre(res.getString("nombre"));
                 bingo.setBombo((BomboAmericano) generarBomboAmericano(res.getString("bombo")));
-                bingo.setCarton((CartonAmericano) generarCarton(res.getString("carton")));
-                
+                bingo.setCarton((CartonAmericano) generarCartonAmericano(res.getString("carton")));
+
                 return bingo;
             }
         } catch (SQLException ex) {
@@ -105,7 +115,7 @@ public class BingoDAO implements IBingo {
         }
         return null;
     }
-    
+
     @Override
     public BingoEuropeo cargarPartidaEuropeo(String id) {
         ResultSet res;
@@ -113,16 +123,18 @@ public class BingoDAO implements IBingo {
 
         String sql = "select * from bingo where id=?";
         try (PreparedStatement prest = con.prepareStatement(sql)) {
-
+            // Preparamos la sentencia parametrizada
             prest.setString(1, id);
+            // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             res = prest.executeQuery();
-
+            // Nos posicionamos en el primer registro del Resultset. Sólo debe haber una fila
+            // si existe esa id
             if (res.next()) {
                 bingo.setId(res.getString("id"));
                 bingo.setFecha(res.getDate("fecha").toLocalDate());
                 bingo.setNombre(res.getString("nombre"));
                 bingo.setBombo((BomboEuropeo) generarBomboEuropeo(res.getString("bombo")));
-//                bingo.setCarton((CartonEuropeo) generarCarton(res.getString("carton")));
+                bingo.setCarton((CartonEuropeo) generarCartonEuropeo(res.getString("carton")));
                 return bingo;
             }
         } catch (SQLException ex) {
@@ -137,6 +149,8 @@ public class BingoDAO implements IBingo {
         String sql = "insert into bingo values (?,?,?,?,?,?)";
 
         try (PreparedStatement prest = con.prepareStatement(sql)) {
+            // Instanciamos el objeto PreparedStatement para inserción
+            // de datos. Sentencia parametrizada
             if (nuevo instanceof BingoAmericano) {
                 prest.setString(1, nuevo.getId());
                 prest.setDate(2, Date.valueOf(nuevo.getFecha()));
@@ -147,6 +161,8 @@ public class BingoDAO implements IBingo {
             }
 
             if (nuevo instanceof BingoEuropeo) {
+                // Instanciamos el objeto PreparedStatement para inserción
+                // de datos. Sentencia parametrizada
                 prest.setString(1, nuevo.getId());
                 prest.setDate(2, Date.valueOf(nuevo.getFecha()));
                 prest.setString(3, nuevo.getNombre());
@@ -161,19 +177,27 @@ public class BingoDAO implements IBingo {
         return numFilas;
     }
 
-    @Override
-    public int borrarPartida(Bingo borrar) {
-        int numFilas = 0;
-        String sql = "delete from bingo where id = ?";
-        try (PreparedStatement prest = con.prepareStatement(sql)) {
-            prest.setString(1, borrar.getId());
-            numFilas = prest.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return numFilas;
-    }
-
+//    @Override
+//    public int borrarPartida(Bingo borrar) {
+//        int numFilas = 0;
+//
+//        String sql = "delete from bingo where id = ?";
+//        // Preparamos el borrado de datos  mediante un Statement
+//        // No hay parámetros en la sentencia SQL
+//        try (PreparedStatement prest = con.prepareStatement(sql)) {
+//            // Ejecución de la sentencia
+//            prest.setString(1, borrar.getId());
+//            numFilas = prest.executeUpdate();
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        // El borrado se realizó con éxito, devolvemos filas afectadas
+//        return numFilas;
+//    }
+//
+    /*Método que genera un String con todos las bolas que quedan en el bombo*/
     private String listaBombo(Bombo bombo) {
         String lista = "";
         for (int i = 0; i < bombo.getListaBombo().size(); i++) {
@@ -182,6 +206,8 @@ public class BingoDAO implements IBingo {
         return lista;
     }
 
+    /*Método que genera el bombo americano con las bolas que queden, en el se
+    le pasa una lista de bolas que quedan (se complementa con el método de listabombo)*/
     private BomboAmericano generarBomboAmericano(String lista) {
         BomboAmericano bombo = new BomboAmericano();
 
@@ -194,6 +220,8 @@ public class BingoDAO implements IBingo {
         return bombo;
     }
 
+    /*Método que genera el bombo europeo con las bolas que queden, en el se
+    le pasa una lista de bolas que quedan (se complementa con el método de listabombo)*/
     private BomboEuropeo generarBomboEuropeo(String lista) {
         BomboEuropeo bombo = new BomboEuropeo();
 
@@ -206,6 +234,7 @@ public class BingoDAO implements IBingo {
         return bombo;
     }
 
+    /*Método que genera un String con una lista con todos los numeros que tiene el carton*/
     public String listaCarton(Carton carton) {
         String lista = "";
         for (int i = 0; i < carton.getMatriz().length; i++) {
@@ -216,7 +245,9 @@ public class BingoDAO implements IBingo {
         return lista;
     }
 
-    private Carton generarCarton(String lista) {
+    /*Método que genera el cartón, le tenemos pasar una lista con todos
+    los número que tiene el cartón (se complementa con listaCarton)*/
+    private Carton generarCartonAmericano(String lista) {
         Carton carton = new CartonAmericano();
         String[] tokens;
         tokens = lista.split(",");
@@ -233,39 +264,72 @@ public class BingoDAO implements IBingo {
         return carton;
     }
 
+    /*Método que genera el cartón, le tenemos pasar una lista con todos
+    los número que tiene el cartón (se complementa con listaCarton)*/
+    private Carton generarCartonEuropeo(String lista) {
+        Carton carton = new CartonEuropeo();
+        String[] tokens;
+        tokens = lista.split(",");
 
+        int[][] matriz = carton.getMatriz();
+        int contador = 0;
+
+        for (int i = 0; i < carton.getMatriz().length; i++) {
+            for (int j = 0; j < carton.getMatriz()[i].length; j++) {
+                matriz[i][j] = Integer.parseInt(tokens[contador]);
+                contador++;
+            }
+        }
+        return carton;
+    }
+
+    /*Método que genera el tipo de cartón que es, si es un bingo europeo pondrá 
+    1 y si es americano pondrá 2*/
     private int tipoBingo(Bingo bingo) {
         int numero = (bingo instanceof BingoEuropeo) ? 1 : 2;
         return numero;
     }
 
-    @Override
-    public int atualizarPartida(String id, Bingo bingo) {
+    public int atualizarPartidaAmericana(String id, BingoAmericano bingo) {
         int numFilas = 0;
         String sql = "update bingo set fecha = ?, bombo = ?, carton = ? where id=?";
 
+        // Instanciamos el objeto PreparedStatement para inserción
+        // de datos. Sentencia parametrizada
         try (PreparedStatement prest = con.prepareStatement(sql)) {
-            
-            if (bingo instanceof BingoAmericano) {
-                prest.setDate(1, Date.valueOf(bingo.getFecha()));
-                prest.setString(2, listaBombo(((BingoAmericano) bingo).getBombo()));
-                prest.setString(3, listaCarton(((BingoAmericano) bingo).getCarton()));
-                prest.setString(4, bingo.getId());
-            } 
 
-            if (bingo instanceof BingoEuropeo) {
-                prest.setDate(1, Date.valueOf(bingo.getFecha()));
-                prest.setString(2, listaBombo(((BingoEuropeo) bingo).getBombo()));
-                prest.setString(3, listaCarton(((BingoEuropeo) bingo).getCarton()));
-                prest.setString(4, bingo.getId());
-            }
+            prest.setDate(1, Date.valueOf(bingo.getFecha()));
+            prest.setString(2, listaBombo(((BingoAmericano) bingo).getBombo()));
+            prest.setString(3, listaCarton(((BingoAmericano) bingo).getCarton()));
+            prest.setString(4, id);
 
             numFilas = prest.executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return numFilas;
+    }
 
+    @Override
+    public int atualizarPartidaEuropea(String id, BingoEuropeo bingo) {
+        int numFilas = 0;
+        String sql = "update bingo set fecha = ?, bombo = ?, carton = ? where id=?";
+
+        // Instanciamos el objeto PreparedStatement para inserción
+        // de datos. Sentencia parametrizada
+        try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+            prest.setDate(1, Date.valueOf(bingo.getFecha()));
+            prest.setString(2, listaBombo(((BingoEuropeo) bingo).getBombo()));
+            prest.setString(3, listaCarton(((BingoEuropeo) bingo).getCarton()));
+            prest.setString(4, id);
+
+            numFilas = prest.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BingoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return numFilas;
     }
 }
