@@ -12,16 +12,19 @@ import java.util.Collections;
  * @author herma
  */
 public final class BomboEuropeo extends Bombo {
-
+    /*Atributo*/
     private static final int CANTIDADBOLAS = 90;
 
-    public static int getCANTIDADBOLAS() {
-        return CANTIDADBOLAS;
-    }
-
+    /*Constructor*/
     public BomboEuropeo() {
     }
     
+    /*Getter*/
+    public static int getCANTIDADBOLAS() {
+        return CANTIDADBOLAS;
+    }
+    
+    /*Método de llenarBombo*/
     @Override
     public void llenarBombo() {
         for (int i = 1; i <= CANTIDADBOLAS; i++) {
