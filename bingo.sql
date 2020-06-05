@@ -3,7 +3,7 @@ CREATE DATABASE if not exists bingo;
 USE bingo;
 drop table if exists bingo;
 create table if not exists bingo
-(id varchar(3),
+(id varchar(10),
  fecha date,
  nombre varchar(20),
 tipo int,
