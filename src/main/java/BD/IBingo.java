@@ -19,18 +19,22 @@ public interface IBingo {
     
     List<BingoEuropeo> mostrarDatosEuropeos();
     
-    // Método para actualizar una partida 
-    int atualizarPartida(String id, Bingo bingo);
+    // Método para actualizar una partida Americana 
+    int atualizarPartidaAmericana(String id, BingoAmericano bingo);
     
-    // Método para generar partida guardada
+    // Método para actualizar una partida Europea
+    int atualizarPartidaEuropea(String id, BingoEuropeo bingo);
+    
+    // Método para generar partida guardada Americana
     BingoAmericano cargarPartidaAmericano(String id);
     
+    // Método para generar partida guardada Europea
     BingoEuropeo cargarPartidaEuropeo(String id);
 
     // Método para insertar una nueva partida de bingo
     int partidaNueva(Bingo nuevo);
 
     // Método para borrar una partida del bingo
-    int borrarPartida(Bingo borrar);
+//    int borrarPartida(Bingo borrar);
 
 }
