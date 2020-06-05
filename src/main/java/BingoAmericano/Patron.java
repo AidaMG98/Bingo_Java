@@ -19,14 +19,17 @@ public enum Patron {
     PATRON_U(cartonU(), "Cartón con una U"),
     PATRON_O(cartonO(), "Cartón con una O");
 
+    /* Atributos*/
     private final ArrayList<Point> casillas;
     private final String descripcion;
 
+    /*Constructor*/
     private Patron(ArrayList<Point> casillas, String descripcion) {
         this.casillas = casillas;
         this.descripcion = descripcion;
     }
 
+    /*Getter*/
     public ArrayList<Point> getCasillas() {
         return casillas;
     }
@@ -35,11 +38,13 @@ public enum Patron {
         return descripcion;
     }
 
+    /*toString*/
     @Override
     public String toString() {
         return "Patron{" + "casillas=" + casillas + ", descripcion=" + descripcion + '}';
     }
 
+    /*Método para generar el patron F*/
     private static ArrayList<Point> cartonF() {
         ArrayList<Point> aux = new ArrayList<>();
 
@@ -62,6 +67,7 @@ public enum Patron {
         return aux;
     }
 
+    /*Método para generar el patron C*/
     private static ArrayList<Point> cartonC() {
         ArrayList<Point> aux = new ArrayList<>();
 
@@ -86,6 +92,7 @@ public enum Patron {
         return aux;
     }
 
+    /*Método para generar el patron E*/
     private static ArrayList<Point> cartonE() {
         ArrayList<Point> aux = new ArrayList<>();
 
@@ -112,6 +119,7 @@ public enum Patron {
         return aux;
     }
 
+    /*Método para generar el patron O*/
     private static ArrayList<Point> cartonO() {
         ArrayList<Point> aux = new ArrayList<>();
 
@@ -139,6 +147,7 @@ public enum Patron {
         return aux;
     }
     
+    /*Método para generar el patron U*/
     private static ArrayList<Point> cartonU() {
         ArrayList<Point> aux = new ArrayList<>();
 
